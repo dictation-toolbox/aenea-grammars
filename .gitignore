@@ -1,6 +1,2 @@
 *.pyc
 .*.swp
-multiedit.py
-util/personal.py
-util/config.py
-config.py
