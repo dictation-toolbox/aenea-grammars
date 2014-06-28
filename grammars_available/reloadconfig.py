@@ -3,11 +3,11 @@ from dragonfly import CompoundRule, Grammar
 import aenea
 import reloadconfig
 
-grammar = Grammar("reload_configuration", context=aenea.global_context)
+grammar = Grammar('reload_configuration', context=aenea.global_context)
 
 
 class ReloadConfiguration(CompoundRule):
-    spec = "reload aenea configuration"
+    spec = 'reload aenea configuration'
     extras = []
 
     def _process_recognition(self, node, extras):

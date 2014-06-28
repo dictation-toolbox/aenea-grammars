@@ -3,13 +3,13 @@ import config
 import raul
 
 modifier_keys = {
-    "control": "c",
-    "altar": "a",
-    "shift": "s",
-    "super": "w"
+    'control': 'c',
+    'altar': 'a',
+    'shift': 's',
+    'super': 'w'
     }
 
-if config.PLATFORM == "proxy":
+if config.PLATFORM == 'proxy':
     from proxy_nicknames import (
         CompoundRule,
         Grammar,
@@ -19,8 +19,8 @@ if config.PLATFORM == "proxy":
         RuleRef,
         )
     grammar_context = aenea.global_context
-    grammar = Grammar("nato", context=grammar_context)
-    modifier_keys.update(hyper="h", meta="m")
+    grammar = Grammar('nato', context=grammar_context)
+    modifier_keys.update(hyper='h', meta='m')
 else:
     from dragonfly import (
         CompoundRule,
@@ -30,24 +30,24 @@ else:
         Repetition,
         RuleRef,
         )
-    grammar = Grammar("nato")
-    modifier_keys.update(windows="w", flag="w")
+    grammar = Grammar('nato')
+    modifier_keys.update(windows='w', flag='w')
 
 
 class MetaKey(CompoundRule):
-    spec = "<modifiers> <key>"
+    spec = '<modifiers> <key>'
 
     extras = [
         Repetition(RuleRef(
-            MappingRule(mapping=modifier_keys, name="modmap"),
-            name="modifier_atom"),
+            MappingRule(mapping=modifier_keys, name='modmap'),
+            name='modifier_atom'),
             1,
             len(modifier_keys),
-            name="modifiers"
+            name='modifiers'
             ),
         RuleRef(
-            MappingRule(mapping=raul.ALPHANUMERIC_EXTENDED, name="keymap"),
-            name="key"
+            MappingRule(mapping=raul.ALPHANUMERIC_EXTENDED, name='keymap'),
+            name='key'
             ),
         ]
 
@@ -56,7 +56,7 @@ class MetaKey(CompoundRule):
         modifiers = delegates[0].value()
         key = delegates[1].value()
 
-        Key("%s-%s" % (''.join(modifiers), key)).execute()
+        Key('%s-%s' % (''.join(modifiers), key)).execute()
 
 grammar.add_rule(MetaKey())
 

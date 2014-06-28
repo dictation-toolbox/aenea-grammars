@@ -11,14 +11,14 @@
 try:
     import pkg_resources
 
-    pkg_resources.require("dragonfly >= 0.6.5beta1.dev-r99")
+    pkg_resources.require('dragonfly >= 0.6.5beta1.dev-r99')
 except ImportError:
     pass
 
 import config
 import verbal_emacs
 
-if config.PLATFORM == "proxy":
+if config.PLATFORM == 'proxy':
     from proxy_nicknames import (
         Alternative,
         AppContext,
@@ -28,17 +28,17 @@ if config.PLATFORM == "proxy":
         Repetition,
         RuleRef,
         )
-    vim_context = AppContext(match="regex", title="(?i).*VIM.*")
-    command_t_context = (AppContext(match="regex", title="^GoToFile.*$") &
+    vim_context = AppContext(match='regex', title='(?i).*VIM.*')
+    command_t_context = (AppContext(match='regex', title='^GoToFile.*$') &
                          vim_context)
     fugitive_index_context = (AppContext(
-                                    match="regex",
-                                    title="^index.*\.git.*$"
+                                    match='regex',
+                                    title='^index.*\.git.*$'
                                     ) &
                               vim_context)
     import aenea
     grammar = Grammar(
-        "verbal_emacs",
+        'verbal_emacs',
         context=vim_context & aenea.global_context
         )
 else:
@@ -51,11 +51,11 @@ else:
         Repetition,
         RuleRef,
         )
-    vim_context = AppContext(title="VIM")
-    command_t_context = AppContext(title="GoToFile") & vim_context
-    fugitive_index_context = (AppContext(title="index") & AppContext(".git") &
+    vim_context = AppContext(title='VIM')
+    command_t_context = AppContext(title='GoToFile') & vim_context
+    fugitive_index_context = (AppContext(title='index') & AppContext('.git') &
                               vim_context)
-    grammar = Grammar("verbal_emacs", context=vim_context)
+    grammar = Grammar('verbal_emacs', context=vim_context)
 
 
 def execute_insertion_buffer(insertion_buffer):
@@ -65,30 +65,30 @@ def execute_insertion_buffer(insertion_buffer):
     if insertion_buffer[0][0] is not None:
         insertion_buffer[0][0].execute()
     else:
-        Key("a").execute()
+        Key('a').execute()
 
     for insertion in insertion_buffer:
         insertion[1].execute()
 
-    Key("escape:2").execute()
+    Key('escape:2').execute()
 
 
 class VimCommand(CompoundRule):
-    spec = ("[<app>] [<literal>]")
-    extras = [Repetition(Alternative([verbal_emacs.commands.ruleCommand, RuleRef(verbal_emacs.insertions.Insertion())]), max=10, name="app"),
-              RuleRef(verbal_emacs.identifiers.LiteralIdentifierInsertion(), name="literal")]
+    spec = ('[<app>] [<literal>]')
+    extras = [Repetition(Alternative([verbal_emacs.commands.ruleCommand, RuleRef(verbal_emacs.insertions.Insertion())]), max=10, name='app'),
+              RuleRef(verbal_emacs.identifiers.LiteralIdentifierInsertion(), name='literal')]
 
     def _process_recognition(self, node, extras):
         insertion_buffer = []
         commands = []
-        if "app" in extras:
-            for chunk in extras["app"]:
+        if 'app' in extras:
+            for chunk in extras['app']:
                 commands.extend(chunk)
-        if "literal" in extras:
-            commands.extend(extras["literal"])
+        if 'literal' in extras:
+            commands.extend(extras['literal'])
         for command in commands:
             mode, command = command
-            if mode == "i":
+            if mode == 'i':
                 insertion_buffer.append(command)
             else:
                 execute_insertion_buffer(insertion_buffer)

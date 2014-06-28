@@ -5,39 +5,39 @@ from verbal_emacs.common import NumericDelegateRule, ruleDigitalInteger
 from verbal_emacs.motions import ruleMotion
 
 _OPERATORS = {
-    "relo": "",
-    "dell": "d",
-    "chaos": "c",
-    "nab": "y",
-    "swap case": "g~",
-    "uppercase": "gU",
-    "lowercase": "gu",
-    "external filter": "!",
-    "external format": "=",
-    "format text": "gq",
-    "rotate thirteen": "g?",
-    "indent left": "<",
-    "indent right": ">",
-    "define fold": "zf",
+    'relo': '',
+    'dell': 'd',
+    'chaos': 'c',
+    'nab': 'y',
+    'swap case': 'g~',
+    'uppercase': 'gU',
+    'lowercase': 'gu',
+    'external filter': '!',
+    'external format': '=',
+    'format text': 'gq',
+    'rotate thirteen': 'g?',
+    'indent left': '<',
+    'indent right': '>',
+    'define fold': 'zf',
     }
 
 
 class PrimitiveOperator(MappingRule):
     mapping = dict((key, Text(val)) for (key, val) in _OPERATORS.iteritems())
     # tComment
-    mapping["comm nop"] = Text("gc")
-rulePrimitiveOperator = RuleRef(PrimitiveOperator(), name="PrimitiveOperator")
+    mapping['comm nop'] = Text('gc')
+rulePrimitiveOperator = RuleRef(PrimitiveOperator(), name='PrimitiveOperator')
 
 
 class Operator(NumericDelegateRule):
-    spec = "[<count>] <PrimitiveOperator>"
+    spec = '[<count>] <PrimitiveOperator>'
     extras = [ruleDigitalInteger[3],
               rulePrimitiveOperator]
-ruleOperator = RuleRef(Operator(), name="Operator")
+ruleOperator = RuleRef(Operator(), name='Operator')
 
 
 class OperatorApplicationMotion(CompoundRule):
-    spec = "[<Operator>] <Motion>"
+    spec = '[<Operator>] <Motion>'
     extras = [ruleOperator, ruleMotion]
 
     def value(self, node):
@@ -48,36 +48,36 @@ class OperatorApplicationMotion(CompoundRule):
         return return_value
 ruleOperatorApplicationMotion = RuleRef(
     OperatorApplicationMotion(),
-    name="OperatorApplicationMotion"
+    name='OperatorApplicationMotion'
     )
 
 
 class OperatorSelfApplication(MappingRule):
-    mapping = dict(("%s [<count>] %s" % (key, key), Text("%s%%(count)d%s" % (value, value)))
+    mapping = dict(('%s [<count>] %s' % (key, key), Text('%s%%(count)d%s' % (value, value)))
                    for (key, value) in _OPERATORS.iteritems())
     # tComment
     # string not action intentional dirty hack.
-    mapping["comm nop [<count>] comm nop"] = "tcomment"
+    mapping['comm nop [<count>] comm nop'] = 'tcomment'
     extras = [ruleDigitalInteger[3]]
-    defaults = {"count": 1}
+    defaults = {'count': 1}
 
     def value(self, node):
         value = MappingRule.value(self, node)
-        if value == "tcomment":
+        if value == 'tcomment':
             # ugly hack to get around tComment's not allowing ranges with gcc.
             value = node.children[0].children[0].children[0].children[1].value()
-            if value in (1, "1", None):
-                return Text("gcc")
+            if value in (1, '1', None):
+                return Text('gcc')
             else:
-                return Text("gc%dj" % (int(value) - 1))
+                return Text('gc%dj' % (int(value) - 1))
         else:
             return value
 
 ruleOperatorSelfApplication = RuleRef(
     OperatorSelfApplication(),
-    name="OperatorSelfApplication"
+    name='OperatorSelfApplication'
     )
 
 ruleOperatorApplication = Alternative([ruleOperatorApplicationMotion,
                                        ruleOperatorSelfApplication],
-                                      name="OperatorApplication")
+                                      name='OperatorApplication')

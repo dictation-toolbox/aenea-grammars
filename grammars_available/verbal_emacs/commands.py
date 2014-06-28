@@ -12,47 +12,47 @@ from verbal_emacs.operators import ruleOperatorApplication
 
 class PrimitiveCommand(MappingRule):
     mapping = {
-        "vim scratch": Key("X"),
-        "vim chuck": Key("x"),
-        "vim undo": Key("u"),
-        "plap": Key("P"),
-        "plop": Key("p"),
-        "ditto": Text("."),
-        "ripple": "macro",
+        'vim scratch': Key('X'),
+        'vim chuck': Key('x'),
+        'vim undo': Key('u'),
+        'plap': Key('P'),
+        'plop': Key('p'),
+        'ditto': Text('.'),
+        'ripple': 'macro',
         }
-rulePrimitiveCommand = RuleRef(PrimitiveCommand(), name="PrimitiveCommand")
+rulePrimitiveCommand = RuleRef(PrimitiveCommand(), name='PrimitiveCommand')
 
 
 class Command(CompoundRule):
-    spec = "[<count>] [reg <LetterMapping>] <command>"
+    spec = '[<count>] [reg <LetterMapping>] <command>'
     extras = [Alternative([ruleOperatorApplication,
                            rulePrimitiveCommand,
-                           ], name="command"),
+                           ], name='command'),
               ruleDigitalInteger[3],
               ruleLetterMapping]
 
     def value(self, node):
         delegates = node.children[0].children[0].children
         value = delegates[-1].value()
-        prefix = ""
+        prefix = ''
         if delegates[0].value() is not None:
             prefix += str(delegates[0].value())
         if delegates[1].value() is not None:
             # Hack for macros
             reg = delegates[1].value()[1]
-            if value == "macro":
-                prefix += "@" + reg
+            if value == 'macro':
+                prefix += '@' + reg
                 value = None
             else:
-                prefix += '"' + reg
+                prefix += "'" + reg
         if prefix:
             if value is not None:
                 value = Text(prefix) + value
             else:
                 value = Text(prefix)
         # TODO: ugly hack; should fix the grammar or generalize.
-        if "chaos" in zip(*node.results)[0]:
-            return [("c", value), ("i", (NoAction(),) * 2)]
+        if 'chaos' in zip(*node.results)[0]:
+            return [('c', value), ('i', (NoAction(),) * 2)]
         else:
-            return [("c", value)]
-ruleCommand = RuleRef(Command(), name="Command")
+            return [('c', value)]
+ruleCommand = RuleRef(Command(), name='Command')
