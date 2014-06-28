@@ -7,6 +7,9 @@
 # while voice lacks this restriction, it imposes a much greater latency,
 # making frequent manual switching extremely inconvenient, particularly
 # when you consider the higher error rate.
+#
+# NOTE: requires both this file AND the verbal_emacs directory be placed in
+#       your Natlink folder (or grammars_available if using the relod utils).
 
 try:
     import pkg_resources
