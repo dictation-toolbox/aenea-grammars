@@ -119,7 +119,7 @@ command_table = aenea.raul.make_grammar_commands('multiedit', {
     #### Words
     'bump [<n>]':      Key('cs-right:%(n)d, del'),
     'whack [<n>]':     Key('cs-left:%(n)d, del'),
-    }, config_key='commands.basic')
+    }, config_key='commands')
 
 
 def format_snakeword(text):
