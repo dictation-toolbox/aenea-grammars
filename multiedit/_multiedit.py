@@ -12,6 +12,9 @@
 # mode. See verbal_emacs for my second (and in my opinion better and
 #     more faithful) attempt at vim bindings.
 #
+# VIM is disabled by default via proxy only, edit the disable_context to
+# undo this. (This is because verbal_emacs is far better).
+#
 # Can be used either with proxy_actions (eg, to ship actions to another
 #     computer like most of aenea), or regularly in Windows like most
 # Dragonfly modules -- just set PLATFORM to 'windows' for that. (line
@@ -27,7 +30,7 @@ ENABLE_ECLIPSE_COMMANDS = True
 ENABLE_VIM_COMMANDS = True
 ENABLE_PYTHON_COMMANDS = True
 
-import raul
+import aenea.raul
 
 try:
     import pkg_resources
@@ -37,13 +40,12 @@ except ImportError:
     pass
 
 try:
-    from config import PLATFORM
+    from aenea.config import PLATFORM
 except ImportError:
     PLATFORM = 'windows'
 
 if PLATFORM == 'proxy':
-    import aenea
-    from proxy_nicknames import (
+    from aenea.proxy_nicknames import (
         Alternative,
         AppContext,
         CompoundRule,
@@ -60,7 +62,6 @@ if PLATFORM == 'proxy':
         )
     vim_context = AppContext(match='regex', title='.*VIM.*')
     disable_context = vim_context
-    global_context = aenea.global_context
 else:
     from dragonfly import (
         Alternative,
@@ -79,7 +80,6 @@ else:
         )
     vim_context = AppContext(title='VIM')
     disable_context = ~AppContext(title='')
-    global_context = AppContext(title='')
 
 #---------------------------------------------------------------------------
 # Set up this module's configuration.
@@ -89,7 +89,7 @@ def Nested(command):
     return Text(command) + Key('left:%i' % (len(command) / 2))
 
 
-command_table = {
+command_table = aenea.raul.make_grammar_commands('multiedit', {
     # Spoken-form normal command          VIM (None if same)
 
     #### Cursor manipulation
@@ -183,10 +183,10 @@ command_table = {
                                             Key('escape') + Text('d%(n)dwi')),
     'whack [<n>]':     (Key('cs-left:%(n)d, del'),
                                             Key('escape') + Text('d%(n)dbi')),
-    }
+    }, config_key='commands.basic')
 
 # VIM only commands
-vim_command_table = {
+vim_command_table = aenea.raul.make_grammar_commands('multiedit', {
     # Spoken-form                VIM (can set to None if same as normal)
     'squishy space [<n>]':       Key('escape') + Text('%(n)dgJi'),
 
@@ -194,10 +194,10 @@ vim_command_table = {
     'slowly down [<n>]':         Key('down:%(n)d'),
     'slowly left [<n>]':         Key('left:%(n)d'),
     'slowly right [<n>]':        Key('right:%(n)d'),
-    }
+    }, config_key='commands.vim')
 
 # Python specific
-python_command_table = {
+python_command_table = aenea.raul.make_grammar_commands('multiedit', {
     # Spoken-form        normal command               VIM (None means same)
     'private':           (Nested('____'),             None),
     'dub dock string':   (Nested('""""""'),           None),
@@ -250,10 +250,10 @@ python_command_table = {
     'compare less':      (Text('< '),                 None),
     'compare geck':      (Text('>= '),                None),
     'compare lack':      (Text('<= '),                None),
-    }
+    }, config_key='commands.python')
 
 # Eclipse only commands
-eclipse_command_table = {
+eclipse_command_table = aenea.raul.make_grammar_commands('multiedit', {
     # Spoken-form           normal command               VIM (None means same)
     'save file':            (Key('c-s'),                 None),
     'save all':             (Key('a-s'),                 None),
@@ -301,7 +301,7 @@ eclipse_command_table = {
     # Spoken-form           normal command                        VIM
     'perspective [<n>]':    (Key('ctrl:down, f8:%(n)d, ctrl:up'), None),
     'view [<n>]':           (Key('ctrl:down, f7:%(n)d, ctrl:up'), None),
-    }
+    }, config_key='commands.eclipse')
 
 
 def format_snakeword(text):
@@ -457,11 +457,11 @@ vim_single_action = Alternative(vim_alternatives)
 
 # Can only be used as the last element
 alphabet_mapping = dict((key, Text(value))
-                        for (key, value) in raul.LETTERS.iteritems())
+                        for (key, value) in aenea.raul.LETTERS.iteritems())
 numbers_mapping = dict((key, Text(value))
-                        for (key, value) in raul.DIGITS.iteritems())
+                        for (key, value) in aenea.raul.DIGITS.iteritems())
 alphanumeric_mapping = dict((key, Text(value))
-                            for (key, value) in raul.ALPHANUMERIC.iteritems())
+                            for (key, value) in aenea.raul.ALPHANUMERIC.iteritems())
 
 alphabet_rule = Sequence([Literal('letters'), Repetition(RuleRef(name='x', rule=MappingRule(name='t', mapping=alphabet_mapping)), min=1, max=20)])
 numbers_rule = Sequence([Literal('digits'), Repetition(RuleRef(name='y', rule=MappingRule(name='u', mapping=numbers_mapping)), min=1, max=20)])
@@ -539,7 +539,7 @@ class RepeatRule(CompoundRule):
 #---------------------------------------------------------------------------
 # Create and load this module's grammar.
 
-grammar = Grammar('multiedit', context=global_context & ~disable_context)
+grammar = Grammar('multiedit', context=~disable_context)
 if ENABLE_VIM_COMMANDS:
     grammar.add_rule(RepeatRule(extras=vim_extras + [format_rule, Alternative(finishes, name='finish')], name='b', context=vim_context))
 grammar.add_rule(RepeatRule(extras=extras + [format_rule, Alternative(finishes, name='finish')], name='a', context=(~vim_context)))
