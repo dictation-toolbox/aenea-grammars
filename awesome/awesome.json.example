@@ -1,0 +1,18 @@
+{
+    "commands": {
+        "termie": "termie",
+        "(whim | notion | ion) screen": "(whim | notion | ion) screen",
+        "(whim | notion | ion) up": "(whim | notion | ion) up",
+        "(whim | notion | ion) down": "(whim | notion | ion) down",
+        "(whim | notion | ion) left": "(whim | notion | ion) left",
+        "(whim | notion | ion) right": "(whim | notion | ion) right",
+        "(whim | notion | ion) change screen [<n>]": "(whim | notion | ion) change screen [<n>]",
+        "(whim | notion | ion) close client": "(whim | notion | ion) close client",
+        "(whim | notion | ion) snap": "(whim | notion | ion) snap",
+        "(whim | notion | ion) full": "(whim | notion | ion) full",
+        "(whim | notion | ion) [work] <n>": "(whim | notion | ion) [work] <n>",
+        "(whim | notion | ion) tag <n>": "(whim | notion | ion) tag <n>",
+        "(whim | notion | ion) tag marked <n>": "(whim | notion | ion) tag marked <n>",
+        "(whim | notion | ion) move marked <n>": "(whim | notion | ion) move marked <n>"
+    }
+}

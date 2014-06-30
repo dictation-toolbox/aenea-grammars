@@ -1,0 +1,19 @@
+{
+    "commands": {
+        "close [<n>] ( frame | frames )": "close [<n>] ( frame | frames )",
+        "open frame": "open frame",
+        "open window": "open window",
+        "reopen [<n>] ( frame | frames )": "reopen [<n>] ( frame | frames )",
+        "[ go to ] frame [<n>]": "[ go to ] frame [<n>]",
+        "frame left [<n>]": "frame left [<n>]",
+        "frame right [<n>]": "frame right [<n>]",
+        "search [<text>]": "search [<text>]",
+        "find [<text>]": "find [<text>]",
+        "history": "history",
+        "reload": "reload",
+        "next [<n>]": "next [<n>]",
+        "previous [<n>]": "previous [<n>]",
+        "back [<n>]": "back [<n>]",
+        "forward [<n>]": "forward [<n>]"
+    }
+}

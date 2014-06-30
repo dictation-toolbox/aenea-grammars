@@ -1,8 +1,8 @@
-import aenea
-import config
+import aenea.config
+import aenea.raul
 
-if config.PLATFORM == 'proxy':
-    from proxy_nicknames import (
+if aenea.config.PLATFORM == 'proxy':
+    from aenea.proxy_nicknames import (
         AppContext,
         Grammar,
         MappingRule,
@@ -11,8 +11,7 @@ if config.PLATFORM == 'proxy':
         IntegerRef,
         Dictation
         )
-    chromium_context = (AppContext(cls_name='chromium', cls='chromium') &
-                        aenea.global_context)
+    chromium_context = AppContext(cls_name='chromium', cls='chromium')
 else:
     from dragonfly import (
         AppContext,
@@ -30,7 +29,7 @@ chromium_grammar = Grammar('chromium', context=chromium_context)
 
 
 class ChromiumRule(MappingRule):
-    mapping = {
+    mapping = aenea.raul.make_grammar_commands('chromium', {
         'close [<n>] ( frame | frames )':    Key('c-w:%(n)d'),
         'open frame':                        Key('c-t'),
         'open window':                       Key('c-n'),
@@ -46,7 +45,7 @@ class ChromiumRule(MappingRule):
         'previous [<n>]':                    Key('cs-g:%(n)d'),
         'back [<n>]':                        Key('a-left:%(n)d'),
         'forward [<n>]':                     Key('a-right:%(n)d'),
-        }
+        })
 
     extras = [IntegerRef('n', 1, 10), Dictation('text')]
     defaults = {
