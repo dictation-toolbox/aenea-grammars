@@ -1,0 +1,25 @@
+{
+    "name": "programming",
+    "tags": ["verbal_emacs.insertions.code", "multiedit.count"],
+    "vocabulary": {
+        "assign":           "= ",
+        "compare eek":      "== ",
+        "compare not eek":  "!= ",
+        "compare greater":  "> ",
+        "compare less":     "< ",
+        "compare geck":     ">= ",
+        "compare lack":     "<= ",
+        "bit ore":          "| ",
+        "bit and":          "& ",
+        "bit ex or":        "^ ",
+        "times":            "* ",
+        "divided":          "/ ",
+        "plus":             "+ ",
+        "minus":            "- ",
+        "plus equal":       "+= ",
+        "minus equal":      "-= ",
+        "times equal":      "*= ",
+        "divided equal":    "/= ",
+        "mod equal":        "%%= "
+    }
+}

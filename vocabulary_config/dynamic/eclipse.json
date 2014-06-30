@@ -1,0 +1,62 @@
+[
+{
+    "name": "eclipse",
+    "tags": ["multiedit"],
+    "vocabulary": {
+    },
+    "shortcuts": {
+        "save file":            "c-s",
+        "save all":             "a-s",
+        "popup":                "apps",
+        "close tab":            "c-w",
+        "close all tabs":       "cs-w",
+        "cut it":               "c-x",
+        "copy it":              "c-c",
+        "who calls":            "ca-h",
+        "link":                 "f3",
+        "refresh":              "f5",
+        "hierarchy":            "c-t",
+        "open type":            "cs-t",
+        "open resource":        "ca-r",
+        "rename":               "cs-r",
+        "correct":              "c-1",
+        "organize imports":     "cs-o",
+        "new java docs":        "sa-j",
+        "find":                 "c-f",
+        "go home":              "home:2",
+        "go end":               "end:2",
+        "pair":                 "cs-p",
+        "chirp":                "c-q",
+        "choices":              "c-space"
+    }
+},
+{
+    "name": "eclipse",
+    "tags": ["multiedit.count"],
+    "vocabulary": {
+    },
+    "shortcuts": {
+        "move tab left":        "c-pgup",
+        "move tab right":       "c-pgdown",
+        "complete":             "a-slash",
+        "undo":                 "c-z",
+        "redo":                 "c-y",
+        "spike":                "sc-up",
+        "mud":                  "sc-down",
+        "block":                "sa-up",
+        "shrink":               "sa-down",
+        "squirt":               "sa-right",
+        "land":                 "sa-left",
+        "glide":                "a-right",
+        "slip":                 "a-left",
+        "slug":                 "c-dot",
+        "snail":                "c-comma",
+        "stint":                "f5",
+        "stover":               "f6",
+        "stout":                "f7",
+        "step continue":        "f8",
+        "perspective":          "ctrl:down, f8, ctrl:up",
+        "view":                 "ctrl:down, f7, ctrl:up"
+    }
+}
+]
