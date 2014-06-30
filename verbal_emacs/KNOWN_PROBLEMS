@@ -1,0 +1,9 @@
+* ripple (play macro) broken
+* chaos (change operator) broken
+* registers "reg alpha nab nab"
+* phylo / phyhigh with no following words don't texit insert mode
+* ins should take a count
+* "ace count" rather than "count ace" (or get rid of it and use i)
+* C++ and Python are hard coded into insertions
+* a few plugins are hard coded into VIM.
+* doesn't support remapping (keys OR voice)
