@@ -1,4 +1,4 @@
-import aenea.raul
+import aenea.misc
 import aenea.vocabulary
 
 from aenea.proxy_nicknames import Key, Grammar, MappingRule
@@ -27,7 +27,7 @@ basics_mapping = aenea.vocabulary.make_grammar_commands('awesome', {
 
 class Basics(MappingRule):
     mapping = basics_mapping
-    extras = [aenea.raul.DigitalInteger('n', 1, None)]
+    extras = [aenea.misc.DigitalInteger('n', 1, None)]
 
 grammar.add_rule(Basics())
 grammar.load()

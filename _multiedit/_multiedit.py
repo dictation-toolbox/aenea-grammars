@@ -12,15 +12,8 @@
 # Dragonfly modules -- just set PLATFORM to 'windows' for that. (line
 #     ~35)
 
-import aenea.raul
+import aenea.misc
 import aenea.vocabulary
-
-try:
-    import pkg_resources
-
-    pkg_resources.require('dragonfly >= 0.6.5beta1.dev-r99')
-except ImportError:
-    pass
 
 try:
     from aenea.config import PLATFORM
@@ -65,10 +58,6 @@ import dragonfly
 
 #---------------------------------------------------------------------------
 # Set up this module's configuration.
-
-
-def Nested(command):
-    return Text(command) + Key('left:%i' % (len(command) / 2))
 
 
 command_table = aenea.vocabulary.make_grammar_commands('multiedit', {
@@ -273,11 +262,11 @@ single_action = Alternative(alternatives)
 
 # Can only be used as the last element
 alphabet_mapping = dict((key, Text(value))
-                        for (key, value) in aenea.raul.LETTERS.iteritems())
+                        for (key, value) in aenea.misc.LETTERS.iteritems())
 numbers_mapping = dict((key, Text(value))
-                        for (key, value) in aenea.raul.DIGITS.iteritems())
+                        for (key, value) in aenea.misc.DIGITS.iteritems())
 alphanumeric_mapping = dict((key, Text(value))
-                            for (key, value) in aenea.raul.ALPHANUMERIC.iteritems())
+                            for (key, value) in aenea.misc.ALPHANUMERIC.iteritems())
 
 alphabet_rule = Sequence([Literal('letters'), Repetition(RuleRef(name='x', rule=MappingRule(name='t', mapping=alphabet_mapping)), min=1, max=20)])
 numbers_rule = Sequence([Literal('digits'), Repetition(RuleRef(name='y', rule=MappingRule(name='u', mapping=numbers_mapping)), min=1, max=20)])

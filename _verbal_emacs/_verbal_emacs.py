@@ -1,24 +1,12 @@
-# Dragonfly module for controlling vim on Linux modelessly. Intended as
-# eventual replacement for the vim module.
+# Dragonfly module for controlling vim on Linux modelessly. All verbal commands
+# start and end in command mode, making it effective to combine voice and
+# keyboard.
 #
 
 LEADER = 'comma'
 
-try:
-    import pkg_resources
-
-    pkg_resources.require('dragonfly >= 0.6.5beta1.dev-r99')
-except ImportError:
-    pass
-
 import aenea.config
-
-from aenea.raul import (
-    DigitalInteger,
-    LETTERS,
-    DIGITS,
-    Nested
-    )
+import aenea.misc
 
 if aenea.config.PLATFORM == 'proxy':
     from aenea.proxy_nicknames import (
@@ -83,13 +71,13 @@ class _DigitalIntegerFetcher(object):
 
     def __getitem__(self, length):
         if length not in self.cached:
-            self.cached[length] = DigitalInteger('count', 1, length)
+            self.cached[length] = aenea.misc.DigitalInteger('count', 1, length)
         return self.cached[length]
 ruleDigitalInteger = _DigitalIntegerFetcher()
 
 
 class LetterMapping(MappingRule):
-    mapping = LETTERS
+    mapping = aenea.misc.LETTERS
 ruleLetterMapping = RuleRef(LetterMapping(), name='LetterMapping')
 
 
@@ -240,8 +228,8 @@ ruleKeyInsertion = RuleRef(KeyInsertion(), name='KeyInsertion')
 
 
 class SpellingInsertion(MappingRule):
-    mapping = dict(('dig ' + key, val) for (key, val) in DIGITS.iteritems())
-    mapping.update(LETTERS)
+    mapping = dict(('dig ' + key, val) for (key, val) in aenea.misc.DIGITS.iteritems())
+    mapping.update(aenea.misc.LETTERS)
 
     def value(self, node):
         return Text(MappingRule.value(self, node))
