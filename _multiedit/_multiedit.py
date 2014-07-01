@@ -11,16 +11,9 @@
 #     computer like most of aenea), or regularly in Windows like most
 # Dragonfly modules -- just set PLATFORM to 'windows' for that. (line
 #     ~35)
-#
-# Requires raul.py to be in the Natlink dir to work correctly. Future
-# versions may clean that up. No other aenea dependencies when operating
-# in regular Windows mode. (Don't forget, it has to be called
-# _multiedit, so if you're not using the reloadconfig module you'll
-# need to rename manually.)
-
-ENABLE_ECLIPSE_COMMANDS = True
 
 import aenea.raul
+import aenea.vocabulary
 
 try:
     import pkg_resources
@@ -78,7 +71,7 @@ def Nested(command):
     return Text(command) + Key('left:%i' % (len(command) / 2))
 
 
-command_table = aenea.raul.make_grammar_commands('multiedit', {
+command_table = aenea.vocabulary.make_grammar_commands('multiedit', {
     #### Cursor manipulation
     'up [<n>]':    Key('up:%(n)d'),
     'down [<n>]':  Key('down:%(n)d'),
@@ -251,7 +244,7 @@ class DynamicCountRule(NumericDelegateRule):
 
     extras = [
         IntegerRef('n', 1, 100),
-        DictListRef('dynamic', aenea.raul.register_dynamic_vocabulary('multiedit.count')),
+        DictListRef('dynamic', aenea.vocabulary.register_dynamic_vocabulary('multiedit.count')),
         ]
 
     defaults = {
@@ -271,7 +264,7 @@ mapping = dict((key, val) for (key, val) in command_table.iteritems())
 format_rule = RuleRef(name='format_rule', rule=FormatRule(name='i'))
 alternatives = [
     RuleRef(rule=KeystrokeRule(mapping=mapping, name='c')),
-    DictListRef('dynamic multiedit', aenea.raul.register_dynamic_vocabulary('multiedit')),
+    DictListRef('dynamic multiedit', aenea.vocabulary.register_dynamic_vocabulary('multiedit')),
     RuleRef(rule=DynamicCountRule(name='aoeuazzzxt'), name='aouxxxazsemi'),
     format_rule,
     ]
@@ -364,8 +357,8 @@ grammar.load()
 
 # Unload function which will be called at unload time.
 def unload():
-    aenea.raul.unregister_dynamic_vocabulary('multiedit')
-    aenea.raul.unregister_dynamic_vocabulary('multiedit.count')
+    aenea.vocabulary.unregister_dynamic_vocabulary('multiedit')
+    aenea.vocabulary.unregister_dynamic_vocabulary('multiedit.count')
     global grammar
     if grammar:
         grammar.unload()

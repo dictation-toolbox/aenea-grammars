@@ -281,8 +281,8 @@ class PrimitiveInsertion(CompoundRule):
     extras = [Alternative([
         ruleKeyInsertion,
         ruleIdentifierInsertion,
-        DictListRef('dynamic verbal_emacs', aenea.raul.register_dynamic_vocabulary('verbal_emacs.insertions.code')),
-        DictListRef('dynamic verbal_emacs', aenea.raul.register_dynamic_vocabulary('verbal_emacs.insertions')),
+        DictListRef('dynamic verbal_emacs', aenea.vocabulary.register_dynamic_vocabulary('verbal_emacs.insertions.code')),
+        DictListRef('dynamic verbal_emacs', aenea.vocabulary.register_dynamic_vocabulary('verbal_emacs.insertions')),
         ruleArithmeticInsertion,
         ruleSpellingInsertion,
         ], name='insertion')]
@@ -616,8 +616,8 @@ grammar.load()
 
 
 def unload():
-    aenea.raul.unregister_dynamic_vocabulary('verbal_emacs.insertions.code')
-    aenea.raul.unregister_dynamic_vocabulary('verbal_emacs.insertions')
+    aenea.vocabulary.unregister_dynamic_vocabulary('verbal_emacs.insertions.code')
+    aenea.vocabulary.unregister_dynamic_vocabulary('verbal_emacs.insertions')
     global grammar
     if grammar:
         grammar.unload()

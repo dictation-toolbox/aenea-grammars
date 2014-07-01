@@ -1,4 +1,5 @@
 import aenea.raul
+import aenea.vocabulary
 
 from aenea.proxy_nicknames import Key, Grammar, MappingRule
 
@@ -6,7 +7,7 @@ grammar = Grammar('awesome')
 
 awesome = 'W'
 
-basics_mapping = aenea.raul.make_grammar_commands('awesome', {
+basics_mapping = aenea.vocabulary.make_grammar_commands('awesome', {
     'termie': Key(awesome + '-enter'),
     '(whim | notion | ion) screen': Key(awesome + 'c-k'),
     '(whim | notion | ion) up': Key(awesome + '-k'),

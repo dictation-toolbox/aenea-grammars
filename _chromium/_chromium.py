@@ -1,5 +1,5 @@
 import aenea.config
-import aenea.raul
+import aenea.vocabulary
 
 if aenea.config.PLATFORM == 'proxy':
     from aenea.proxy_nicknames import (
@@ -29,7 +29,7 @@ chromium_grammar = Grammar('chromium', context=chromium_context)
 
 
 class ChromiumRule(MappingRule):
-    mapping = aenea.raul.make_grammar_commands('chromium', {
+    mapping = aenea.vocabulary.make_grammar_commands('chromium', {
         'close [<n>] ( frame | frames )':    Key('c-w:%(n)d'),
         'open frame':                        Key('c-t'),
         'open window':                       Key('c-n'),
