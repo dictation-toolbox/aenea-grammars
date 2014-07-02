@@ -1,12 +1,24 @@
+# This is a command module for Dragonfly. It provides bindings for the Linux
+# window manager Awesome. Only active when running via proxy and the server
+# reports Linux.
+
+# You may find this useful to disable the Windows key in windows stealing focus
+# from the client.
+# http://support.microsoft.com/kb/216893#LetMeFixItMyselfAlways
+
+import aenea
 import aenea.misc
 import aenea.vocabulary
 
-from aenea.proxy_nicknames import Key, Grammar, MappingRule
+import dragonfly
 
-grammar = Grammar('awesome')
+awesome_context = aenea.proxy_contexts.ProxyPlatformContext('linux')
+
+grammar = dragonfly.Grammar('awesome', context=awesome_context)
 
 awesome = 'W'
 
+from aenea import Key
 basics_mapping = aenea.vocabulary.make_grammar_commands('awesome', {
     'termie': Key(awesome + '-enter'),
     '(whim | notion | ion) screen': Key(awesome + 'c-k'),
@@ -25,7 +37,7 @@ basics_mapping = aenea.vocabulary.make_grammar_commands('awesome', {
     })
 
 
-class Basics(MappingRule):
+class Basics(dragonfly.MappingRule):
     mapping = basics_mapping
     extras = [aenea.misc.DigitalInteger('n', 1, None)]
 
