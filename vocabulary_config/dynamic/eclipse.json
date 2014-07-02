@@ -1,7 +1,7 @@
 [
 {
     "name": "eclipse",
-    "tags": ["multiedit"],
+    "tags": ["multiedit", "global"],
     "vocabulary": {
     },
     "shortcuts": {

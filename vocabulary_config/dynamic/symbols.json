@@ -1,6 +1,6 @@
 {
     "name": "symbols",
-    "tags": ["verbal_emacs.insertions", "multiedit.count"],
+    "tags": ["verbal_emacs.insertions", "multiedit.count", "global"],
     "shortcuts": {
         "amp":               "ampersand",
         "ash":               "slash",
