@@ -7,54 +7,34 @@
 # (c) Copyright 2008 by Christo Butcher
 # Licensed under the LGPL, see <http://www.gnu.org/licenses/>
 #
-# Can be used either with proxy_actions (eg, to ship actions to another
-#     computer like most of aenea), or regularly in Windows like most
-# Dragonfly modules -- just set PLATFORM to 'windows' for that. (line
-#     ~35)
 
+import aenea
 import aenea.misc
 import aenea.vocabulary
+import aenea.format
 
-try:
-    from aenea.config import PLATFORM
-except ImportError:
-    PLATFORM = 'windows'
+from dragonfly import (
+    Alternative,
+    CompoundRule,
+    Dictation,
+    DictListRef,
+    Grammar,
+    IntegerRef,
+    Literal,
+    MappingRule,
+    Repetition,
+    RuleRef,
+    Sequence
+    )
 
-if PLATFORM == 'proxy':
-    from aenea.proxy_nicknames import (
-        Alternative,
-        AppContext,
-        CompoundRule,
-        Dictation,
-        Grammar,
-        IntegerRef,
-        Key,
-        Literal,
-        MappingRule,
-        Repetition,
-        RuleRef,
-        Sequence,
-        Text,
-        )
-else:
-    from dragonfly import (
-        Alternative,
-        AppContext,
-        CompoundRule,
-        Dictation,
-        Grammar,
-        IntegerRef,
-        Key,
-        Literal,
-        MappingRule,
-        Repetition,
-        RuleRef,
-        Sequence,
-        Text,
-        )
+from aenea import (
+    Key,
+    Text
+    )
 
-from dragonfly import DictListRef
-import dragonfly
+# Multiedit wants to take over dynamic vocabulary management.
+MULTIEDIT_TAGS = ['multiedit', 'multiedit.count']
+aenea.vocabulary.inhibit_global_dynamic_vocabulary('multiedit', MULTIEDIT_TAGS)
 
 #---------------------------------------------------------------------------
 # Set up this module's configuration.
@@ -104,62 +84,6 @@ command_table = aenea.vocabulary.make_grammar_commands('multiedit', {
     }, config_key='commands')
 
 
-def format_snakeword(text):
-    formatted = text[0][0].upper()
-    formatted += text[0][1:]
-    formatted += ('_' if len(text) > 1 else '')
-    formatted += format_score(text[1:])
-    return formatted
-
-
-def format_score(text):
-    return '_'.join(text)
-
-
-def format_camel(text):
-    return text[0] + ''.join([word[0].upper() + word[1:] for word in text[1:]])
-
-
-def format_proper(text):
-    return ''.join(word.capitalize() for word in text)
-
-
-def format_relpath(text):
-    return '/'.join(text)
-
-
-def format_abspath(text):
-    return '/' + format_relpath(text)
-
-
-def format_scoperesolve(text):
-    return '::'.join(text)
-
-
-def format_jumble(text):
-    return ''.join(text)
-
-
-def format_dotword(text):
-    return '.'.join(text)
-
-
-def format_dashword(text):
-    return '-'.join(text)
-
-
-def format_natword(text):
-    return ' '.join(text)
-
-
-def format_broodingnarrative(text):
-    return ''
-
-
-def format_sentence(text):
-    return ' '.join([text[0].capitalize()] + text[1:])
-
-
 class FormatRule(CompoundRule):
     spec = ('[upper | natural] ( proper | camel | rel-path | abs-path | score | sentence | '
             'scope-resolve | jumble | dotword | dashword | natword | snakeword | brooding-narrative) [<dictation>]')
@@ -180,7 +104,7 @@ class FormatRule(CompoundRule):
         if words[0].lower() in ('upper', 'natural'):
             del words[0]
 
-        function = globals()['format_%s' % words[0].lower()]
+        function = getattr(aenea.format, 'format_%s' % words[0].lower())
         formatted = function(words[1:])
 
         return Text(formatted)
@@ -346,9 +270,13 @@ grammar.load()
 
 # Unload function which will be called at unload time.
 def unload():
-    aenea.vocabulary.unregister_dynamic_vocabulary('multiedit')
-    aenea.vocabulary.unregister_dynamic_vocabulary('multiedit.count')
     global grammar
+    aenea.vocabulary.uninhibit_global_dynamic_vocabulary(
+        'multiedit',
+        MULTIEDIT_TAGS
+        )
+    for tag in MULTIEDIT_TAGS:
+        aenea.vocabulary.unregister_dynamic_vocabulary(tag)
     if grammar:
         grammar.unload()
     grammar = None
