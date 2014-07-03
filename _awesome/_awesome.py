@@ -12,14 +12,13 @@ import aenea.configuration
 
 import dragonfly
 
-awesome_context = aenea.proxy_contexts.ProxyPlatformContext('linux')
+awesome_context = aenea.ProxyPlatformContext('linux')
 
 grammar = dragonfly.Grammar('awesome', context=awesome_context)
 
 awesome = 'W'
 
-from aenea.wrappers.lax import Key
-# from aenea.proxy_actions import ProxyKey as Key
+from aenea.lax import Key
 
 basics_mapping = aenea.configuration.make_grammar_commands('awesome', {
     'termie': Key(awesome + '-enter'),

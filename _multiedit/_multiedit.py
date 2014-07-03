@@ -14,7 +14,9 @@ import aenea.vocabulary
 import aenea.configuration
 import aenea.format
 
-from dragonfly import (
+from aenea import (
+    AeneaContext,
+    AppContext,
     Alternative,
     CompoundRule,
     Dictation,
@@ -22,7 +24,9 @@ from dragonfly import (
     Grammar,
     IntegerRef,
     Literal,
+    ProxyAppContext,
     MappingRule,
+    NeverContext,
     Repetition,
     RuleRef,
     Sequence
@@ -262,7 +266,36 @@ class RepeatRule(CompoundRule):
 #---------------------------------------------------------------------------
 # Create and load this module's grammar.
 
-grammar = Grammar('multiedit')
+conf = aenea.configuration.ConfigWatcher(('grammar_config', 'multiedit')).conf
+
+local_disable_setting = conf.get('local_disable_context', None)
+local_disable_context = NeverContext()
+if local_disable_setting is not None:
+    if not isinstance(local_disable_setting, basestring):
+        print 'Local disable context may only be a string.'
+    else:
+        local_disable_context = AppContext(str(local_disable_setting))
+
+
+
+proxy_disable_setting = conf.get('proxy_disable_context', None)
+proxy_disable_context = NeverContext()
+if proxy_disable_setting is not None:
+    if isinstance(proxy_disable_setting, dict):
+        d = {}
+        for k, v in proxy_disable_setting.iteritems():
+            d[str(k)] = str(v)
+        proxy_disable_context = ProxyAppContext(**d)
+    else:
+        proxy_disable_context = ProxyAppContext(
+            title=str(proxy_disable_setting),
+            match='substring'
+            )
+
+
+context = AeneaContext(proxy_disable_context, local_disable_context)
+
+grammar = Grammar('multiedit', context=~context)
 grammar.add_rule(RepeatRule(extras=extras + [format_rule, Alternative(finishes, name='finish')], name='a'))
 grammar.add_rule(LiteralRule())
 

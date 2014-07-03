@@ -7,51 +7,48 @@ LEADER = 'comma'
 
 import aenea.config
 import aenea.misc
+import aenea.vocabulary
 
-if aenea.config.PLATFORM == 'proxy':
-    from aenea.proxy_nicknames import (
-        Alternative,
-        AppContext,
-        CompoundRule,
-        Dictation,
-        MappingRule,
-        Grammar,
-        Key,
-        NoAction,
-        Repetition,
-        RuleRef,
-        Text
-        )
-    vim_context = AppContext(match='regex', title='(?i).*VIM.*')
-    command_t_context = (AppContext(match='regex', title='^GoToFile.*$') &
-                         vim_context)
-    fugitive_index_context = (AppContext(match='regex', title='^index.*\.git.*$') &
-                              vim_context)
-    grammar = Grammar('verbal_emacs', context=vim_context)
-else:
-    from dragonfly import (
-        Alternative,
-        AppContext,
-        CompoundRule,
-        MappingRule,
-        Grammar,
-        Key,
-        ActionBase,
-        Repetition,
-        RuleRef,
-        Text
-        )
+from aenea import (
+    Key,
+    NoAction,
+    Text
+    )
 
-    class NoAction(ActionBase):
-        def execute(self):
-            pass
-    vim_context = AppContext(title='VIM')
-    command_t_context = AppContext(title='GoToFile') & vim_context
-    fugitive_index_context = (AppContext(title='index') & AppContext('.git') &
-                              vim_context)
-    grammar = Grammar('verbal_emacs', context=vim_context)
+from aenea.proxy_contexts import ProxyAppContext
+
+from dragonfly import (
+    Alternative,
+    AppContext,
+    CompoundRule,
+    Dictation,
+    Grammar,
+    MappingRule,
+    Repetition,
+    RuleRef
+    )
+
+vim_context = aenea.wrappers.AeneaContext(
+    ProxyAppContext(match='regex', title='(?i).*VIM.*'),
+    AppContext(title='VIM')
+    )
+
+command_t_context = aenea.wrappers.AeneaContext(
+    ProxyAppContext(match='regex', title='^GoToFile.*$'),
+    AppContext(title='GoToFile')
+    ) & vim_context
+
+fugitive_index_context = aenea.wrappers.AeneaContext(
+    ProxyAppContext(match='regex', title='^index.*\.git.*$'),
+    AppContext(title='index') & AppContext('.git')
+    ) & vim_context
+
+grammar = Grammar('verbal_emacs', context=vim_context)
 
 from dragonfly import DictListRef
+
+VERBAL_EMACS_TAGS = ['verbal_emacs.insertions.code', 'verbal_emacs.insertions']
+aenea.vocabulary.inhibit_global_dynamic_vocabulary('verbal_emacs', VERBAL_EMACS_TAGS, vim_context)
 
 
 # TODO: this can NOT be the right way to do this...
@@ -595,7 +592,7 @@ class VimCommand(CompoundRule):
             else:
                 execute_insertion_buffer(insertion_buffer)
                 insertion_buffer = []
-                command.execute()
+                command.execute(extras)
         execute_insertion_buffer(insertion_buffer)
 
 grammar.add_rule(VimCommand())
@@ -604,8 +601,9 @@ grammar.load()
 
 
 def unload():
-    aenea.vocabulary.unregister_dynamic_vocabulary('verbal_emacs.insertions.code')
-    aenea.vocabulary.unregister_dynamic_vocabulary('verbal_emacs.insertions')
+    aenea.vocabulary.uninhibit_global_dynamic_vocabulary('verbal_emacs', VERBAL_EMACS_TAGS)
+    for tag in VERBAL_EMACS_TAGS:
+        aenea.vocabulary.unregister_dynamic_vocabulary(tag)
     global grammar
     if grammar:
         grammar.unload()

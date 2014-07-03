@@ -29,5 +29,7 @@
         "wipe [<n>]": "wipe [<n>]",
         "bump [<n>]": "bump [<n>]",
         "whack [<n>]": "whack [<n>]"
-    }
+    },
+    "local_disable_context": "VIM",
+    "proxy_disable_context": {"match": "regex", "title": "(?i).*VIM.*"}
 }

@@ -1,29 +1,22 @@
 import aenea.config
 import aenea.configuration
 
-if aenea.config.PLATFORM == 'proxy':
-    from aenea.proxy_nicknames import (
-        AppContext,
-        Grammar,
-        MappingRule,
-        Key,
-        Text,
-        IntegerRef,
-        Dictation
-        )
-    chromium_context = AppContext(cls_name='chromium', cls='chromium')
-else:
-    from dragonfly import (
-        AppContext,
-        Grammar,
-        MappingRule,
-        Key,
-        Text,
-        IntegerRef,
-        Dictation
-        )
-    chromium_context = (AppContext(executable='chrome') |
-                        AppContext(executable='chromium'))
+from aenea import (
+    AeneaContext,
+    AppContext,
+    Dictation,
+    Grammar,
+    IntegerRef,
+    Key,
+    MappingRule,
+    ProxyAppContext,
+    Text
+    )
+
+chromium_context = aenea.AeneaContext(
+    ProxyAppContext(cls_name='chromium', cls='chromium'),
+    (AppContext(executable='chrome') | AppContext(executable='chromium'))
+    )
 
 chromium_grammar = Grammar('chromium', context=chromium_context)
 
