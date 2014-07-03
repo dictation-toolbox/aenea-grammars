@@ -18,7 +18,9 @@ grammar = dragonfly.Grammar('awesome', context=awesome_context)
 
 awesome = 'W'
 
-from aenea import Key
+from aenea.wrappers.lax import Key
+# from aenea.proxy_actions import ProxyKey as Key
+
 basics_mapping = aenea.vocabulary.make_grammar_commands('awesome', {
     'termie': Key(awesome + '-enter'),
     '(whim | notion | ion) screen': Key(awesome + 'c-k'),
