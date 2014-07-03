@@ -20,6 +20,7 @@ from aenea import (
     Alternative,
     CompoundRule,
     Dictation,
+    DictList,
     DictListRef,
     Grammar,
     IntegerRef,
@@ -157,6 +158,19 @@ class NumericDelegateRule(CompoundRule):
             return value
 
 
+class StaticCountRule(NumericDelegateRule):
+    spec = '<static> [<n>]'
+
+    extras = [
+        IntegerRef('n', 1, 100),
+        DictListRef(
+            'static',
+            DictList(
+                'static multiedit.count',
+                aenea.vocabulary.get_static_vocabulary('multiedit.count')
+                )),
+        ]
+
 class DynamicCountRule(NumericDelegateRule):
     spec = '<dynamic> [<n>]'
 
@@ -182,8 +196,19 @@ mapping = dict((key, val) for (key, val) in command_table.iteritems())
 format_rule = RuleRef(name='format_rule', rule=FormatRule(name='i'))
 alternatives = [
     RuleRef(rule=KeystrokeRule(mapping=mapping, name='c')),
-    DictListRef('dynamic multiedit', aenea.vocabulary.register_dynamic_vocabulary('multiedit')),
+    DictListRef(
+        'dynamic multiedit',
+        aenea.vocabulary.register_dynamic_vocabulary('multiedit')
+        ),
+    DictListRef(
+        'static multiedit',
+        DictList(
+            'static multiedit',
+            aenea.vocabulary.get_static_vocabulary('multiedit')
+            ),
+        ),
     RuleRef(rule=DynamicCountRule(name='aoeuazzzxt'), name='aouxxxazsemi'),
+    RuleRef(rule=StaticCountRule(name='aioeuazzzxt'), name='aouxxxazsemii'),
     format_rule,
     ]
 
