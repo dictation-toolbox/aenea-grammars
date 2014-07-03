@@ -8,7 +8,7 @@
 
 import aenea
 import aenea.misc
-import aenea.vocabulary
+import aenea.configuration
 
 import dragonfly
 
@@ -21,7 +21,7 @@ awesome = 'W'
 from aenea.wrappers.lax import Key
 # from aenea.proxy_actions import ProxyKey as Key
 
-basics_mapping = aenea.vocabulary.make_grammar_commands('awesome', {
+basics_mapping = aenea.configuration.make_grammar_commands('awesome', {
     'termie': Key(awesome + '-enter'),
     '(whim | notion | ion) screen': Key(awesome + 'c-k'),
     '(whim | notion | ion) up': Key(awesome + '-k'),

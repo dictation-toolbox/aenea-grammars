@@ -11,6 +11,7 @@
 import aenea
 import aenea.misc
 import aenea.vocabulary
+import aenea.configuration
 import aenea.format
 
 from dragonfly import (
@@ -40,7 +41,7 @@ aenea.vocabulary.inhibit_global_dynamic_vocabulary('multiedit', MULTIEDIT_TAGS)
 # Set up this module's configuration.
 
 
-command_table = aenea.vocabulary.make_grammar_commands('multiedit', {
+command_table = aenea.configuration.make_grammar_commands('multiedit', {
     #### Cursor manipulation
     'up [<n>]':    Key('up:%(n)d'),
     'down [<n>]':  Key('down:%(n)d'),
