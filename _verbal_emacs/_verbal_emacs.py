@@ -261,16 +261,51 @@ ruleArithmeticInsertion = RuleRef(
     )
 
 
+primitive_insertions = [
+    ruleKeyInsertion,
+    ruleIdentifierInsertion,
+    DictListRef(
+        'dynamic verbal_emacs.insertions.code',
+        aenea.vocabulary.register_dynamic_vocabulary('verbal_emacs.insertions.code')
+        ),
+    DictListRef(
+        'dynamic verbal_emacs.insertions',
+        aenea.vocabulary.register_dynamic_vocabulary('verbal_emacs.insertions')
+        ),
+    ruleArithmeticInsertion,
+    ruleSpellingInsertion,
+    ]
+
+
+static_code_insertions = aenea.vocabulary.get_static_vocabulary('verbal_emacs.insertions.code')
+static_insertions = aenea.vocabulary.get_static_vocabulary('verbal_emacs.insertions')
+
+if static_code_insertions:
+    primitive_insertions.append(
+        RuleRef(
+            MappingRule(
+                'static verbal_emacs.insertions,code mapping',
+                mapping=aenea.vocabulary.get_static_vocabulary('verbal_emacs.insertions.code')
+                ),
+            'static verbal_emacs.insertions.code'
+            )
+        )
+
+if static_insertions:
+    primitive_insertions.append(
+        RuleRef(
+            MappingRule(
+                'static verbal_emacs.insertions mapping',
+                mapping=aenea.vocabulary.get_static_vocabulary('verbal_emacs.insertions')
+                ),
+            'static verbal_emacs.insertions'
+            )
+        )
+
+
 class PrimitiveInsertion(CompoundRule):
     spec = '<insertion>'
-    extras = [Alternative([
-        ruleKeyInsertion,
-        ruleIdentifierInsertion,
-        DictListRef('dynamic verbal_emacs', aenea.vocabulary.register_dynamic_vocabulary('verbal_emacs.insertions.code')),
-        DictListRef('dynamic verbal_emacs', aenea.vocabulary.register_dynamic_vocabulary('verbal_emacs.insertions')),
-        ruleArithmeticInsertion,
-        ruleSpellingInsertion,
-        ], name='insertion')]
+    extras = [Alternative(primitive_insertions, name='insertion')]
 
     def value(self, node):
         children = node.children[0].children[0].children
