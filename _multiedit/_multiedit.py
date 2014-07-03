@@ -224,7 +224,7 @@ class LiteralRule(CompoundRule):
     extras = [format_rule]
 
     def _process_recognition(self, node, extras):
-        extras['format_rule'].execute()
+        extras['format_rule'].execute(extras)
 
 # This is the rule that actually handles recognitions.
 #  When a recognition occurs, it's _process_recognition()
@@ -252,12 +252,12 @@ class RepeatRule(CompoundRule):
         count = extras['n']
         for i in range(count):
             for action in sequence:
-                action.execute()
+                action.execute(extras)
             if 'format_rule' in extras:
-                extras['format_rule'].execute()
+                extras['format_rule'].execute(extras)
             if 'finish' in extras:
                 for action in extras['finish'][1]:
-                    action.execute()
+                    action.execute(extras)
 
 #---------------------------------------------------------------------------
 # Create and load this module's grammar.
