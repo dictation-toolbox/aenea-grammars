@@ -1,15 +1,15 @@
-import aenea.config
-import aenea.configuration
+#import aenea.config
+#import aenea.configuration
 
-from aenea import (
-    AeneaContext,
+from dragonfly import (
+    Context,
     AppContext,
     Dictation,
     Grammar,
     IntegerRef,
     Key,
     MappingRule,
-    ProxyAppContext,
+    AppContext,
     Text,
     MappingRule,
     RuleRef,
@@ -34,6 +34,9 @@ add_option_rules = Repetition(add_option_rule, min=1, max=10, name='add_options'
 class GitAddRule(CompoundRule):
     spec = "add [<add_options>]"
     extras = [add_option_rules]
+
+    def value(self, node):
+        return 'add '
 git_add_rule = RuleRef(name='add_rule', rule=GitAddRule())
 
 
@@ -51,6 +54,9 @@ commit_option_rules = Repetition(commit_option_rule, min=1, max=10, name='commit
 class GitCommitRule(CompoundRule):
     spec = 'commit [<commit_options>]'
     extras = [commit_option_rules]
+
+    def value(self, node):
+        return 'commit '
 git_commit_rule = RuleRef(name='commit_rule', rule=GitCommitRule())
 
 
@@ -64,13 +70,31 @@ class GitRule(CompoundRule):
     spec = 'git <command>'
     extras = [git_command_rule]
 
+    def process_recognition(self, node):
+        print self.value(node)
+
+    def value(self, node):
+        value = Text('git ' + recurse_values(node))
+        return value
 
 
+def recurse_values(node):
+    value = ''
+    for child in node.children:
+        if child.actor.__class__ == RuleRef:
+            value += child.value()
+        value += recurse_values(child)
+    return value
+
+"""
 git_context = aenea.AeneaContext(
     ProxyAppContext(executable='gnome-terminal'),
-    AppContext(executable='cmd.exe')
+    AppContext(executable='notepad.exe')
 )
-git_grammar = Grammar('git', context=git_context)
+"""
+#git_context = AppContext(executable='notepad')
+
+git_grammar = Grammar('git')
 git_grammar.add_rule(GitRule())
 git_grammar.load()
 
