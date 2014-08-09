@@ -7,25 +7,28 @@ from dragonfly import (
     AppContext,
     Grammar,
     MappingRule,
-    AppContext,
-    MappingRule,
     RuleRef,
     Repetition,
     Alternative,
     CompoundRule,
     )
 
-from aenea import (
-    Key,
-    NoAction,
-    Text
-)
+from aenea import Text
+
+
+def recurse_values(node, types):
+    value = ''
+    for child in node.children:
+        if child.actor.__class__ in types:
+            value += child.value()
+        value += recurse_values(child, types)
+    return value
 
 
 class GitAddOptionRule(MappingRule):
     mapping = {
         'dry run': '--dry-run ',
-        'verbokse': '--verbose ',
+        'verbose': '--verbose ',
         'force': '--force ',
         'interactive': '--interactive ',
         'patch': '--patch ',
@@ -49,7 +52,7 @@ class GitAddRule(CompoundRule):
     extras = [add_options]
 
     def value(self, node):
-        return 'add '
+        return 'add ' + recurse_values(node, [GitAddOptionRule])
 add_rule = RuleRef(name='add_rule', rule=GitAddRule())
 
 
@@ -99,7 +102,7 @@ class GitCommitRule(CompoundRule):
     extras = [commit_options]
 
     def value(self, node):
-        return 'commit '
+        return 'commit ' + recurse_values(node, [GitCommitOptionRule])
 commit_rule = RuleRef(name='commit_rule', rule=GitCommitRule())
 
 
@@ -127,7 +130,7 @@ class GitCheckoutRule(CompoundRule):
     extras = [checkout_options]
 
     def value(self, node):
-        return 'checkout '
+        return 'checkout ' + recurse_values(node, [GitCheckoutOptionRule])
 checkout_rule = RuleRef(name='checkout_rule', rule=GitCheckoutRule())
 
 
@@ -151,7 +154,7 @@ class GitPushRule(CompoundRule):
     extras = [push_options]
 
     def value(self, node):
-        return "push "
+        return "push " + recurse_values(node, [GitPushOptionRule])
 push_rule = RuleRef(name="push_rule", rule=GitPushRule())
 
 
@@ -171,7 +174,7 @@ class GitStatusRule(CompoundRule):
     extras = [status_options]
 
     def value(self, node):
-        return "status "
+        return "status " + recurse_values(node, [GitStatusRuleOption])
 status_rule = RuleRef(name="status_rule", rule=GitStatusRule())
 
 
@@ -193,7 +196,7 @@ class GitPrettyRule(CompoundRule):
     extras = [pretty_format_rule]
 
     def value(self, node):
-        return "--pretty="
+        return "--pretty=" + recurse_values(node, [GitPrettyFormatRule])
 pretty_rule = RuleRef(name="pretty_rule", rule=GitPrettyRule())
 pretty_rules = Alternative(name="pretty_rules", children=[
     pretty_rule
@@ -201,11 +204,12 @@ pretty_rules = Alternative(name="pretty_rules", children=[
 
 
 class GitLogOptionRule(CompoundRule):
+    #TODO: expand this class to use more than a single "pretty" rule
     spec = "<pretty_rules>"
     extras = [pretty_rules]
 
     def value(self, node):
-        return ''
+        return '' + recurse_values(node, [GitPrettyRule])
 log_option = RuleRef(name="log_option", rule=GitLogOptionRule())
 
 
@@ -214,18 +218,22 @@ class GitLogRule(CompoundRule):
     extras = [log_option]
 
     def value(self, node):
-        return "log "
-log_rule = RuleRef(name="log_option", rule=GitLogRule())
+        return "log " + recurse_values(node, [GitLogOptionRule])
+log_rule = RuleRef(name="log_rule", rule=GitLogRule())
 
 
-git_command = Alternative(name='command', children=[
-    add_rule,
-    commit_rule,
-    checkout_rule,
-    push_rule,
-    status_rule,
-    log_rule
-])
+commands = [
+    GitAddRule,
+    GitCommitRule,
+    GitCheckoutRule,
+    GitPushRule,
+    GitStatusRule,
+    GitLogRule,
+]
+git_command = Alternative(
+    name='command',
+    children=[RuleRef(cmd()) for cmd in commands]
+)
 
 
 class GitRule(CompoundRule):
@@ -236,17 +244,9 @@ class GitRule(CompoundRule):
         self.value(node).execute()
 
     def value(self, node):
-        value = Text('git ' + recurse_values(node))
+        cmd = node.children[0].children[0].children[1].children[0].children[0]
+        value = Text('git ' + cmd.value())
         return value
-
-
-def recurse_values(node):
-    value = ''
-    for child in node.children:
-        if child.actor.__class__ == RuleRef:
-            value += child.value()
-        value += recurse_values(child)
-    return value
 
 
 git_grammar = Grammar('git')
