@@ -248,10 +248,6 @@ def recurse_values(node):
         value += recurse_values(child)
     return value
 
-git_context = aenea.AeneaContext(
-    ProxyAppContext(executable='gnome-terminal'),
-    AppContext(executable='notepad.exe')
-)
 
 git_grammar = Grammar('git')
 git_grammar.add_rule(GitRule())
