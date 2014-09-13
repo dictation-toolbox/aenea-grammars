@@ -1,31 +1,22 @@
 import aenea.config
 import aenea.configuration
-from aenea.proxy_contexts import ProxyAppContext
 
 from dragonfly import (
-    Context,
-    AppContext,
     Grammar,
-    MappingRule,
-    AppContext,
     MappingRule,
     RuleRef,
     Repetition,
     Alternative,
     CompoundRule,
-    )
-
-from aenea import (
-    Key,
-    NoAction,
-    Text
 )
+
+from aenea import Text
 
 
 class GitAddOptionRule(MappingRule):
-    mapping = {
+    mapping = aenea.configuration.make_grammar_commands('git_add_options', {
         'dry run': '--dry-run ',
-        'verbokse': '--verbose ',
+        'verbose': '--verbose ',
         'force': '--force ',
         'interactive': '--interactive ',
         'patch': '--patch ',
@@ -39,7 +30,7 @@ class GitAddOptionRule(MappingRule):
         'refresh': '--refresh ',
         'ignore errors': '--ignore-errors ',
         'ignore missing': '--ignore-missing '
-    }
+    })
 add_option = RuleRef(name='add_option', rule=GitAddOptionRule())
 add_options = Repetition(add_option, min=1, max=10, name='add_options')
 
@@ -54,7 +45,7 @@ add_rule = RuleRef(name='add_rule', rule=GitAddRule())
 
 
 class GitCommitOptionRule(MappingRule):
-    mapping = {
+    mapping = aenea.configuration.make_grammar_commands('git_commit_options', {
         'all': '--all ',
         'patch': '--patch ',
         'reuse message': '--reuse-message="',
@@ -87,11 +78,15 @@ class GitCommitOptionRule(MappingRule):
         'dry run': '--dry-run ',
         'status': '--status ',
         'no status': '--no-status ',
-        #TODO: add cleanup and options
-        #TODO: add mode and options
-    }
-commit_option = RuleRef(name='commit_option', rule=GitCommitOptionRule())
-commit_options = Repetition(commit_option, min=1, max=10, name='commit_options')
+        # TODO: add cleanup and options
+        # TODO: add mode and options
+    })
+commit_option = RuleRef(
+    name='commit_option', rule=GitCommitOptionRule()
+)
+commit_options = Repetition(
+    commit_option, min=1, max=10, name='commit_options'
+)
 
 
 class GitCommitRule(CompoundRule):
@@ -104,22 +99,27 @@ commit_rule = RuleRef(name='commit_rule', rule=GitCommitRule())
 
 
 class GitCheckoutOptionRule(MappingRule):
-    mapping = {
-        'quiet': '--quiet ',
-        'force': '--force ',
-        'ours': '--ours ',
-        'theirs': '--theirs ',
-        'branch': '-b ',
-        'track': '--track ',
-        'no track': '--no-track ',
-        'detatch': '--detach ',
-        'orphan': '--orphan ',
-        'ignore skip worktree bits': '--ignore-skip-worktree-bits ',
-        'merge': '--merge ',
-        'patch': '--patch ',
-    }
-checkout_option = RuleRef(name='checkout_option', rule=GitCheckoutOptionRule())
-checkout_options = Repetition(checkout_option, min=1, max=10, name="checkout_options")
+    mapping = aenea.configuration.make_grammar_commands(
+        'git_checkout_options', {
+            'quiet': '--quiet ',
+            'force': '--force ',
+            'ours': '--ours ',
+            'theirs': '--theirs ',
+            'branch': '-b ',
+            'track': '--track ',
+            'no track': '--no-track ',
+            'detatch': '--detach ',
+            'orphan': '--orphan ',
+            'ignore skip worktree bits': '--ignore-skip-worktree-bits ',
+            'merge': '--merge ',
+            'patch': '--patch ',
+        })
+checkout_option = RuleRef(
+    name='checkout_option', rule=GitCheckoutOptionRule()
+)
+checkout_options = Repetition(
+    checkout_option, min=1, max=10, name="checkout_options"
+)
 
 
 class GitCheckoutRule(CompoundRule):
@@ -132,7 +132,7 @@ checkout_rule = RuleRef(name='checkout_rule', rule=GitCheckoutRule())
 
 
 class GitPushOptionRule(MappingRule):
-    mapping = {
+    mapping = aenea.configuration.make_grammar_commands('git_push_options', {
         "all": "--all ",
         "prune": "--prune ",
         "mirror": "--mirror ",
@@ -141,7 +141,7 @@ class GitPushOptionRule(MappingRule):
         "tags": "--tags ",
         "force": "--force ",
         "set upstream": "--set-upstream ",
-    }
+    })
 push_option = RuleRef(name="push_option", rule=GitPushOptionRule())
 push_options = Repetition(push_option, min=1, max=10, name="push_options")
 
@@ -156,14 +156,18 @@ push_rule = RuleRef(name="push_rule", rule=GitPushRule())
 
 
 class GitStatusRuleOption(MappingRule):
-    mapping = {
+    mapping = aenea.configuration.make_grammar_commands('git_status_options', {
         "short": "--short ",
         "branch": "--branch ",
         "long": "--long ",
         "ignored": "--ignored ",
-    }
-status_option = RuleRef(name="status_option", rule=GitStatusRuleOption())
-status_options = Repetition(status_option, min=1, max=10, name="status_options")
+    })
+status_option = RuleRef(
+    name="status_option", rule=GitStatusRuleOption()
+)
+status_options = Repetition(
+    status_option, min=1, max=10, name="status_options"
+)
 
 
 class GitStatusRule(CompoundRule):
@@ -185,7 +189,9 @@ class GitPrettyFormatRule(MappingRule):
         "email": "email ",
         "raw": "raw ",
     }
-pretty_format_rule = RuleRef(name="pretty_format_rule", rule=GitPrettyFormatRule())
+pretty_format_rule = RuleRef(
+    name="pretty_format_rule", rule=GitPrettyFormatRule()
+)
 
 
 class GitPrettyRule(CompoundRule):
@@ -218,13 +224,41 @@ class GitLogRule(CompoundRule):
 log_rule = RuleRef(name="log_option", rule=GitLogRule())
 
 
+class GitBranchOption(MappingRule):
+    mapping = aenea.configuration.make_grammar_commands(
+        'git_branch_option', {
+            'delete': '--delete',
+            'force': '--force',
+            'move': '--move',
+            'remotes': '--remotes',
+            'quiet': '--quite',
+        }
+    )
+branch_option = RuleRef(
+    name="branch_option", rule=GitBranchOption()
+)
+branch_options = Repetition(
+    branch_option, min=1, max=10, name="branch_options"
+)
+
+
+class GitBranchRule(CompoundRule):
+    spec = "branch [<branch_options>]"
+    extras = [branch_options]
+
+    def value(self, node):
+        return "branch "
+branch_rule = RuleRef(name="branch_rule", rule=GitBranchRule())
+
+
 git_command = Alternative(name='command', children=[
     add_rule,
     commit_rule,
     checkout_rule,
     push_rule,
     status_rule,
-    log_rule
+    log_rule,
+    branch_rule
 ])
 
 
