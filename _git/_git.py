@@ -236,18 +236,18 @@ class GitLogRule(CompoundRule):
 log_rule = RuleRef(name="log_option", rule=GitLogRule())
 
 
-class GitBranchOption(MappingRule):
+class GitBranchOptionRule(MappingRule):
     mapping = aenea.configuration.make_grammar_commands(
-        'git_branch_option', {
-            'delete': '--delete',
-            'force': '--force',
-            'move': '--move',
-            'remotes': '--remotes',
-            'quiet': '--quite',
+        'git_branch_options', {
+            'delete': '--delete ',
+            'force': '--force ',
+            'move': '--move ',
+            'remotes': '--remotes ',
+            'quiet': '--quite ',
         }
     )
 branch_option = RuleRef(
-    name="branch_option", rule=GitBranchOption()
+    name="branch_option", rule=GitBranchOptionRule()
 )
 branch_options = Repetition(
     branch_option, min=1, max=10, name="branch_options"
@@ -259,7 +259,7 @@ class GitBranchRule(CompoundRule):
     extras = [branch_options]
 
     def value(self, node):
-        return "branch "
+        return "branch " + recurse_values(node, [GitBranchOptionRule])
 branch_rule = RuleRef(name="branch_rule", rule=GitBranchRule())
 
 
