@@ -21,8 +21,6 @@ def recurse_values(node, types):
         value += recurse_values(child, types)
     return value
 
-from aenea import Text
-
 
 class GitAddOptionRule(MappingRule):
     mapping = aenea.configuration.make_grammar_commands('git_add_options', {
@@ -218,7 +216,7 @@ pretty_rules = Alternative(name="pretty_rules", children=[
 
 
 class GitLogOptionRule(CompoundRule):
-    #TODO: expand this class to use more than a single "pretty" rule
+    # TODO: expand this class to use more than a single "pretty" rule
     spec = "<pretty_rules>"
     extras = [pretty_rules]
 
@@ -263,6 +261,28 @@ class GitBranchRule(CompoundRule):
 branch_rule = RuleRef(name="branch_rule", rule=GitBranchRule())
 
 
+class GitPullOption(MappingRule):
+    mapping = aenea.configuration.make_grammar_commands(
+        "git_pull_options", {
+            "quiet": "--quiet ",
+            "verbose": "--verbose ",
+            "rebase": "--rebase ",
+            "force": "--force ",
+        }
+    )
+pull_option = RuleRef(name="pull_option", rule=GitPullOption())
+pull_options = Repetition(pull_option, min=1, max=10, name="pull_options")
+
+
+class GitPullRule(CompoundRule):
+    spec = "pull [<pull_options>]"
+    extras = [pull_options]
+
+    def value(self, node):
+        return "pull " + recurse_values(node, [GitPullOption])
+pull_rule = RuleRef(name="pull_rule", rule=GitPullRule())
+
+
 git_command = Alternative(name='command', children=[
     add_rule,
     commit_rule,
@@ -270,7 +290,8 @@ git_command = Alternative(name='command', children=[
     push_rule,
     status_rule,
     log_rule,
-    branch_rule
+    branch_rule,
+    pull_rule,
 ])
 
 

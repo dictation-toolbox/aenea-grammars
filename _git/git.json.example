@@ -96,4 +96,10 @@
     "quiet": "quiet",
     "delete": "delete"
   }
+  "git_pull_options": {
+    "rebase": "rebase",
+    "force": "force",
+    "quiet": "quiet",
+    "verbose": "verbose"
+  }
 }
