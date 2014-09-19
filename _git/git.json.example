@@ -1,0 +1,105 @@
+{
+  "git_add_options": {
+    "intent to add": "intent to add",
+    "all": "all",
+    "dry run": "dry run",
+    "force": "force",
+    "verbose": "verbose",
+    "update": "update",
+    "ignore removal": "ignore removal",
+    "ignore errors": "ignore errors",
+    "ignore missing": "ignore missing",
+    "edit": "edit",
+    "refresh": "refresh",
+    "patch": "patch",
+    "no ignore removal": "no ignore removal",
+    "no all": "no all",
+    "interactive": "interactive"
+  },
+  "git_commit_options": {
+    "status": "status",
+    "all": "all",
+    "dry run": "dry run",
+    "no status": "no status",
+    "branch": "branch",
+    "allow empty message": "allow empty message",
+    "porcelain": "porcelain",
+    "squash": "squash",
+    "allow empty": "allow empty",
+    "file": "file",
+    "date": "date",
+    "verbose": "verbose",
+    "fix up": "fix up",
+    "null": "null",
+    "message": "message",
+    "template": "template",
+    "no post rewrite": "no post rewrite",
+    "short": "short",
+    "no edit": "no edit",
+    "author": "author",
+    "edit": "edit",
+    "reedit message": "reedit message",
+    "quiet": "quiet",
+    "long": "long",
+    "patch": "patch",
+    "reuse message": "reuse message",
+    "amend": "amend",
+    "only": "only",
+    "reset author": "reset author",
+    "include": "include",
+    "signoff": "signoff",
+    "no verify": "no verify"
+  },
+  "git_checkout_options": {
+    "force": "force",
+    "branch": "branch",
+    "track": "track",
+    "orphan": "orphan",
+    "no track": "no track",
+    "patch": "patch",
+    "theirs": "theirs",
+    "quiet": "quiet",
+    "ignore skip worktree bits": "ignore skip worktree bits",
+    "merge": "merge",
+    "detatch": "detatch",
+    "ours": "ours"
+  },
+  "git_push_options": {
+    "all": "all",
+    "dry run": "dry run",
+    "force": "force",
+    "prune": "prune",
+    "mirror": "mirror",
+    "set upstream": "set upstream",
+    "tags": "tags",
+    "delete": "delete"
+  },
+  "git_status_options": {
+    "ignored": "ignored",
+    "short": "short",
+    "long": "long",
+    "branch": "branch"
+  },
+  "git_pretty_options": {
+    "short": "short",
+    "fuller": "fuller",
+    "full": "full",
+    "raw": "raw",
+    "one line": "one line",
+    "medium": "medium",
+    "email": "email"
+  },
+  "git_branch_options": {
+    "remotes": "remotes",
+    "move": "move",
+    "force": "force",
+    "quiet": "quiet",
+    "delete": "delete"
+  }
+  "git_pull_options": {
+    "rebase": "rebase",
+    "force": "force",
+    "quiet": "quiet",
+    "verbose": "verbose"
+  }
+}
