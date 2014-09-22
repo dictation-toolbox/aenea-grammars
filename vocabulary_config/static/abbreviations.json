@@ -1,6 +1,6 @@
 {
     "name": "abbreviations",
-    "tags": ["verbal_emacs.insertions", "multiedit", "global"],
+    "tags": ["vim.insertions", "multiedit", "global"],
     "vocabulary": {
         "abbreviate administrator": "admin",
         "abbreviate administrators": "admins",

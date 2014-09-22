@@ -1,6 +1,6 @@
 {
     "name": "programming",
-    "tags": ["verbal_emacs.insertions.code", "multiedit.count", "global"],
+    "tags": ["vim.insertions.code", "multiedit.count", "global"],
     "vocabulary": {
         "assign":           "= ",
         "compare eek":      "== ",
