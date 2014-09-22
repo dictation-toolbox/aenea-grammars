@@ -1,6 +1,6 @@
 {
     "name": "python",
-    "tags": ["verbal_emacs.insertions.code", "multiedit", "global"],
+    "tags": ["vim.insertions.code", "multiedit", "global"],
     "vocabulary": {
         "values":            "values",
         "get atter":         "getattr",

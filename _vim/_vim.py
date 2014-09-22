@@ -43,12 +43,12 @@ fugitive_index_context = aenea.wrappers.AeneaContext(
     AppContext(title='index') & AppContext('.git')
     ) & vim_context
 
-grammar = Grammar('verbal_emacs', context=vim_context)
+grammar = Grammar('vim', context=vim_context)
 
 from dragonfly import DictListRef
 
-VERBAL_EMACS_TAGS = ['verbal_emacs.insertions.code', 'verbal_emacs.insertions']
-aenea.vocabulary.inhibit_global_dynamic_vocabulary('verbal_emacs', VERBAL_EMACS_TAGS, vim_context)
+VIM_TAGS = ['vim.insertions.code', 'vim.insertions']
+aenea.vocabulary.inhibit_global_dynamic_vocabulary('vim', VIM_TAGS, vim_context)
 
 
 # TODO: this can NOT be the right way to do this...
@@ -265,29 +265,29 @@ primitive_insertions = [
     ruleKeyInsertion,
     ruleIdentifierInsertion,
     DictListRef(
-        'dynamic verbal_emacs.insertions.code',
-        aenea.vocabulary.register_dynamic_vocabulary('verbal_emacs.insertions.code')
+        'dynamic vim.insertions.code',
+        aenea.vocabulary.register_dynamic_vocabulary('vim.insertions.code')
         ),
     DictListRef(
-        'dynamic verbal_emacs.insertions',
-        aenea.vocabulary.register_dynamic_vocabulary('verbal_emacs.insertions')
+        'dynamic vim.insertions',
+        aenea.vocabulary.register_dynamic_vocabulary('vim.insertions')
         ),
     ruleArithmeticInsertion,
     ruleSpellingInsertion,
     ]
 
 
-static_code_insertions = aenea.vocabulary.get_static_vocabulary('verbal_emacs.insertions.code')
-static_insertions = aenea.vocabulary.get_static_vocabulary('verbal_emacs.insertions')
+static_code_insertions = aenea.vocabulary.get_static_vocabulary('vim.insertions.code')
+static_insertions = aenea.vocabulary.get_static_vocabulary('vim.insertions')
 
 if static_code_insertions:
     primitive_insertions.append(
         RuleRef(
             MappingRule(
-                'static verbal_emacs.insertions,code mapping',
-                mapping=aenea.vocabulary.get_static_vocabulary('verbal_emacs.insertions.code')
+                'static vim.insertions,code mapping',
+                mapping=aenea.vocabulary.get_static_vocabulary('vim.insertions.code')
                 ),
-            'static verbal_emacs.insertions.code'
+            'static vim.insertions.code'
             )
         )
 
@@ -295,10 +295,10 @@ if static_insertions:
     primitive_insertions.append(
         RuleRef(
             MappingRule(
-                'static verbal_emacs.insertions mapping',
-                mapping=aenea.vocabulary.get_static_vocabulary('verbal_emacs.insertions')
+                'static vim.insertions mapping',
+                mapping=aenea.vocabulary.get_static_vocabulary('vim.insertions')
                 ),
-            'static verbal_emacs.insertions'
+            'static vim.insertions'
             )
         )
 
@@ -636,8 +636,8 @@ grammar.load()
 
 
 def unload():
-    aenea.vocabulary.uninhibit_global_dynamic_vocabulary('verbal_emacs', VERBAL_EMACS_TAGS)
-    for tag in VERBAL_EMACS_TAGS:
+    aenea.vocabulary.uninhibit_global_dynamic_vocabulary('vim', VIM_TAGS)
+    for tag in VIM_TAGS:
         aenea.vocabulary.unregister_dynamic_vocabulary(tag)
     global grammar
     if grammar:
