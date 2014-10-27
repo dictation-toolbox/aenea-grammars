@@ -16,6 +16,8 @@ Most modules will let you change what you say to do something by editing the VAL
 
 See Aenea's documentation for how to use vocabularies, but the best way is to look at the examples in this repository and adapt them to your needs.
 
+Please feel free to post in the Dragonfly Google group https://groups.google.com/forum/#!forum/dragonflyspeech or to email me if you have questions about this system or issues getting it working. I don't use it as much as I used to, but I'm still happy to discuss getting it to work and improving it, particularly the setup instructions, and I've learned a great deal from other users already.
+
 Multiedit
 ---------
 
