@@ -2,20 +2,23 @@ from aenea import Text
 
 '''
 Useful bash script for grabbing all of the options from a help page:
-git help <SOME_COMMAND> \
-  | tr " " "\n" \
-  | egrep '^\--[a-zA-Z0-9].*$' \
-  | egrep -v '/' \
-  | egrep -v ');?$' \
-  | egrep -v '\]' \
-  | perl -pe 's/\[(.*)\]/\1/' \
-  | perl -pe 's/<.*>//' \
-  | sort \
-  | uniq \
-  | perl -pe "s/(.*)(\n?)/'\1', /"
+
+::
+
+    git help <SOME_COMMAND> \
+      | tr " " "\n" \
+      | egrep '^\--[a-zA-Z0-9].*$' \
+      | egrep -v '/' \
+      | egrep -v ');?$' \
+      | egrep -v '\]' \
+      | perl -pe 's/\[(.*)\]/\1/' \
+      | perl -pe 's/<.*>//' \
+      | sort \
+      | uniq \
+      | perl -pe "s/(.*)(\n?)/'\1', /"
 
 NOTE: Most of the Git options in this file have been generated using the above
-script.
+script. These have been marked with a comment saying 'Generated'.
 '''
 
 
