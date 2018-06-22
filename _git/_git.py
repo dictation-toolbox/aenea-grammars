@@ -122,7 +122,7 @@ class GitCommandRuleBuilder:
 class GitRule(CompoundRule):
     def __init__(self):
         # TODO get help
-        super(CompoundRule, self).__init__(
+        super(GitRule, self).__init__(
             spec='git [<command_with_options>] [<enter>] [<cancel>]',
             extras=[
                 Alternative(
@@ -159,7 +159,12 @@ def all_commands():
         GitCommandRuleBuilder(name='commit', text='commit -v')
         .double_option(['all', 'amend'])
         .option('dot|point', '.')
-        .option('message', '.')
+        .option(
+            # NOTE: The user can only say the message option last
+            'message',
+            Text('-m ') + Key('dquote,dquote,left'),
+            append_space=False,
+        )
         .build(),
     ]
 
