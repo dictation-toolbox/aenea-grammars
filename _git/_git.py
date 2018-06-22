@@ -169,13 +169,10 @@ class GitRule(CompoundRule):
         )
 
     def _process_recognition(self, node, extras):
-        def execute(name):
+        for name in ['command_with_options', 'enter', 'cancel']:
             executable = extras.get(name)
             if executable:
                 executable.execute()
-
-        for name in ['command_with_options', 'enter', 'cancel']:
-            execute(name)
 
 
 load()
