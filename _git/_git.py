@@ -120,37 +120,25 @@ class GitCommandRuleBuilder:
 
 
 class GitRule(CompoundRule):
-    spec = 'git [<command_with_options>] [<enter>] [<cancel>]'
-    extras = [
-        Alternative(name='command_with_options', children=[
-            GitCommandRuleBuilder(name='add')
-            .double_option('all')
-            .build(),
-            #              RuleRef(name='add', rule=GitCommandRule(
-            #                  name='add',
-            #                  options={
-            #                      'all': Text('--all '),
-            #                      'dot|point': Text('. '),
-            #                  }
-            #              )),
-            #              RuleRef(name='commit', rule=GitCommandRule(
-            #                  name='commit',
-            #                  text='commit -v',
-            #                  options={
-            #                      'all': Text('--all '),
-            #                      'dot|point': Text('. '),
-            #                  }
-            #              )),
-        ]),
-        RuleRef(name='enter', rule=MappingRule(
-            name='enter',
-            mapping={'enter': Key('enter')},
-        )),
-        RuleRef(name='cancel', rule=MappingRule(
-            name='cancel',
-            mapping={'cancel': Key('c-c')},
-        )),
-    ]
+    def __init__(self):
+        # TODO get help
+        super(CompoundRule, self).__init__(
+            spec='git [<command_with_options>] [<enter>] [<cancel>]',
+            extras=[
+                Alternative(
+                    name='command_with_options',
+                    children=all_commands(),
+                ),
+                RuleRef(name='enter', rule=MappingRule(
+                    name='enter',
+                    mapping={'enter': Key('enter')},
+                )),
+                RuleRef(name='cancel', rule=MappingRule(
+                    name='cancel',
+                    mapping={'cancel': Key('c-c')},
+                )),
+            ],
+        )
 
     def _process_recognition(self, node, extras):
         def execute(name):
@@ -160,6 +148,20 @@ class GitRule(CompoundRule):
 
         for name in ['command_with_options', 'enter', 'cancel']:
             execute(name)
+
+
+def all_commands():
+    return [
+        GitCommandRuleBuilder(name='add')
+        .double_option(['all'])
+        .option('dot|point', '.')
+        .build(),
+        GitCommandRuleBuilder(name='commit', text='commit -v')
+        .double_option(['all', 'amend'])
+        .option('dot|point', '.')
+        .option('message', '.')
+        .build(),
+    ]
 
 
 load()
