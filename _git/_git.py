@@ -142,7 +142,7 @@ class GitRule(CompoundRule):
 
     def _process_recognition(self, node, extras):
         def execute(name):
-            executable = extras[name]
+            executable = extras.get(name)
             if executable:
                 executable.execute()
 
@@ -156,11 +156,14 @@ def all_commands():
         .double_option(['all'])
         .option('dot|point', '.')
         .build(),
+
         GitCommandRuleBuilder(name='commit', text='commit -v')
         .double_option(['all', 'amend'])
         .option('dot|point', '.')
         .option(
             # NOTE: The user can only say the message option last
+            # NOTE 2: This grammar does not have the capability to write out
+            # the commit message
             'message',
             Text('-m ') + Key('dquote,dquote,left'),
             append_space=False,
