@@ -30,7 +30,11 @@ def all_commands(GitCommandRuleBuilder):
         .smart_options(['.'])
         .smart_options([
             # Generated:
-            # TODO  NEXT
+            '--', '--all,', '--chmod', '--dry-run', '--dry-run.', '--edit',
+            '--force', '--ignore-errors', '--ignore-missing',
+            '--ignore-removal', '--intent-to-add', '--interactive', '--no-all',
+            '--no-all,', '--no-ignore-removal', '--no-warn-embedded-repo',
+            '--patch', '--refresh', '--update', '--verbose',
         ])
         .build(),
 
