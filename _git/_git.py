@@ -1,5 +1,6 @@
 import aenea.config
 import aenea.configuration
+import re
 import git_commands
 
 from aenea.proxy_contexts import ProxyAppContext
@@ -78,7 +79,7 @@ class GitCommandRule(CompoundRule):
         help = not not sequence_values[0]
         option_values = sequence_values[2]
 
-        output_text = Text('git {}{} '.format(
+        output_text = Text('git {}{}'.format(
             'help ' if help else '',
             self.name,
         ))
@@ -119,9 +120,23 @@ class GitCommandRuleBuilder:
         if isinstance(result_text, basestring):
             result_text = Text(option)
         if append_space:
-            result_text += Text(' ')
+            result_text = Text(' ') + result_text
 
         self.data['options'][alias] = result_text
+        return self
+
+    def smart_options(self, options, **keyword_arguments):
+        for option in options:
+            if option == '.':
+                alias = 'dot|point'
+            elif re.match(r'^-+$', option):
+                alias = 'dash ' * len(option)
+            else:
+                alias = re.sub(r'[^a-zA-Z0-9]', ' ', option)
+
+            alias = alias.strip()
+            self.option(alias, option, **keyword_arguments)
+
         return self
 
     def build(self):
@@ -133,13 +148,14 @@ class GitCommandRuleBuilder:
 
 class GitRule(CompoundRule):
     def __init__(self):
-        # TODO get help
+        commands = git_commands.all_commands(GitCommandRuleBuilder)
+
         super(GitRule, self).__init__(
             spec='git [<command_with_options>] [<enter>] [<cancel>]',
             extras=[
                 Alternative(
                     name='command_with_options',
-                    children=git_commands.all_commands(GitCommandRuleBuilder),
+                    children=commands,
                 ),
                 RuleRef(name='enter', rule=MappingRule(
                     name='enter',
