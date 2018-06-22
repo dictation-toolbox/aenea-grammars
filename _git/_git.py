@@ -1,5 +1,6 @@
 import aenea.config
 import aenea.configuration
+import git_commands
 
 from aenea.proxy_contexts import ProxyAppContext
 
@@ -53,10 +54,9 @@ class GitCommandRule(CompoundRule):
             self,
             name,
             options,
-            default_options=[],
+            base_options=[],
     ):
-        self.default_options = default_options
-        self.name = name
+        self.base_options = base_options
 
         super(GitCommandRule, self).__init__(
             name=name,
@@ -86,7 +86,7 @@ class GitCommandRule(CompoundRule):
         if help:
             options = option_values
         else:
-            options = self.default_options + option_values
+            options = self.base_options + option_values
         for option in options:
             output_text += option
 
@@ -139,7 +139,7 @@ class GitRule(CompoundRule):
             extras=[
                 Alternative(
                     name='command_with_options',
-                    children=all_commands(),
+                    children=git_commands.all_commands(GitCommandRuleBuilder),
                 ),
                 RuleRef(name='enter', rule=MappingRule(
                     name='enter',
@@ -160,28 +160,6 @@ class GitRule(CompoundRule):
 
         for name in ['command_with_options', 'enter', 'cancel']:
             execute(name)
-
-
-def all_commands():
-    return [
-        GitCommandRuleBuilder(name='add')
-        .double_option(['all'])
-        .option('dot|point', '.')
-        .build(),
-
-        GitCommandRuleBuilder(name='commit', default_options=[Text('-v ')])
-        .double_option(['all', 'amend'])
-        .option('dot|point', '.')
-        .option(
-            # NOTE: The user can only say the message option last
-            # NOTE 2: This grammar does not have the capability to write out
-            # the commit message
-            'message',
-            Text('-m ') + Key('dquote,dquote,left'),
-            append_space=False,
-        )
-        .build(),
-    ]
 
 
 load()
