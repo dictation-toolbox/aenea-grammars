@@ -43,22 +43,37 @@ def unload():
 
 
 class GitCommandRule(CompoundRule):
-    '''Terminology:
+    '''
+    Terminology:
     - name: name to give to the rule (to make it unique), acts as a default
       alias and text
     - alias: what to say to match this command
-    - text: what gets typed out when this command gets matched'''
-    def __init__(self, name, options, alias=None, text=None):
+    - text: what gets typed out when this command gets matched
+
+    Example things you can say:
+    - git <alias>
+    - git <alias> <option1> <option2>
+    - git help <alias>
+    '''
+    def __init__(
+            self,
+            name,
+            options,
+            alias=None,
+            text=None,
+            default_options=[],
+    ):
         if alias is None:
             alias = name
         if text is None:
             text = name
 
+        self.default_options = default_options
         self.text = text
 
         super(GitCommandRule, self).__init__(
             name=name,
-            spec=alias + ' <options>',
+            spec='[help] {} <options>'.format(alias),
             extras=[Repetition(
                 name='options',
                 min=0,
@@ -72,13 +87,23 @@ class GitCommandRule(CompoundRule):
 
     def value(self, node):
         sequence_values = node.children[0].children[0].value()
-        option_values = sequence_values[1]
 
-        text = Text('git {} '.format(self.text))
-        for option in option_values:
-            text += option
+        help = not not sequence_values[0]
+        option_values = sequence_values[2]
 
-        return text
+        output_text = Text('git {}{} '.format(
+            'help ' if help else '',
+            self.text,
+        ))
+
+        if help:
+            options = option_values
+        else:
+            options = self.default_options + option_values
+        for option in options:
+            output_text += option
+
+        return output_text
 
 
 class GitCommandRuleBuilder:
@@ -157,7 +182,7 @@ def all_commands():
         .option('dot|point', '.')
         .build(),
 
-        GitCommandRuleBuilder(name='commit', text='commit -v')
+        GitCommandRuleBuilder(name='commit', default_options=[Text('-v ')])
         .double_option(['all', 'amend'])
         .option('dot|point', '.')
         .option(
