@@ -75,8 +75,9 @@ class GitCommandRule(CompoundRule):
             alias=None,
             base_options=[],
     ):
-        alias = alias or name
+        print('{}: {}'.format(name, len(options)))  # TODO remvoe
 
+        alias = alias or name
         self.base_options = base_options
 
         super(GitCommandRule, self).__init__(
