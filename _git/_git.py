@@ -118,6 +118,8 @@ class GitCommandRuleBuilder:
         self.data = data
 
     def option(self, alias, option, append_space=True):
+        alias = alias.strip()
+
         if alias in self.data['options']:
             return
 
@@ -138,6 +140,7 @@ class GitCommandRuleBuilder:
         :code:`['.', '-', '--', 'some-option', '--another-option',
         '--[no-]using-the-thing']`
         '''
+
         optional_pattern = r'-(.*)\[(.+)?\](.*)'
 
         if option == '.':
@@ -153,9 +156,8 @@ class GitCommandRuleBuilder:
                 re.sub(optional_pattern, r'-\1\3', option, count=1),
             ], **keyword_arguments)
         else:
-            alias = re.sub(r'[^a-zA-Z0-9]', ' ', option)
+            return self.stripped_option(option)
 
-        alias = alias.strip()
         return self.option(alias, option, **keyword_arguments)
 
     def smart_options(self, options, **keyword_arguments):
@@ -164,6 +166,12 @@ class GitCommandRuleBuilder:
         for option in options:
             self.smart_option(option, **keyword_arguments)
 
+        return self
+
+    def simple_options(self, options, **keyword_arguments):
+        for option in options:
+            alias = re.sub(r'[^a-zA-Z0-9]', ' ', option)
+            self.option(alias, option, **keyword_arguments)
         return self
 
     convenience_option = option
