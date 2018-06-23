@@ -72,13 +72,16 @@ class GitCommandRule(CompoundRule):
             self,
             name,
             options,
+            alias=None,
             base_options=[],
     ):
+        alias = alias or name
+
         self.base_options = base_options
 
         super(GitCommandRule, self).__init__(
             name=name,
-            spec='[help] {} <options>'.format(name),
+            spec='[help] ({}) <options>'.format(alias),
             extras=[Repetition(
                 name='options',
                 min=0,
