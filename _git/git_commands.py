@@ -38,12 +38,13 @@ luck understanding this):
     builder_code_for_command <YOUR_COMMAND>
 
 NOTE: Most of the Git options in this file have been generated using the above
-script. These have been marked with a comment saying 'Generated'.
+script. These have been marked with a comment saying 'Generated'. If there is
+no comment saying that some options have been generated, they have been entered
+manually.
 '''
 
 
 # TODO common branch name and a boat names
-# TODO by sect,stash comands
 # TODO More convenience commands
 
 def all_commands(GitCommandRuleBuilder):
@@ -68,6 +69,11 @@ def common_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='bisect')
+        .smart_options(
+            # Generated from the output of `git bisect` without any arguments
+            ('help|start|bad|good|new|old|terms|skip|next|reset|visualize|'
+             + 'replay|log|run').split('|')
+        )
         .smart_options([
             # Generated:
             '--', '--hard', '--no-checkout', '--no-commit', '--not',
@@ -474,6 +480,10 @@ def extra_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='stash')
+        .smart_options([
+            'apply', 'branch', 'clear', 'create', 'drop', 'list', 'pop',
+            'push', 'save', 'save', 'show', 'store',
+        ])
         .smart_options([
             # Generated:
             '--grep=', '--keep-index', '--merges', '--no-walk', '--patch',
