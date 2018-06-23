@@ -118,8 +118,8 @@ class GitCommandRuleBuilder:
         self.data = data
 
     def option(self, alias, option, append_space=True):
-        if alias in self.data:
-            raise ValueError('{} is already in {}'.format(alias, self.data))
+        if alias in self.data['options']:
+            return
 
         result_text = option
         if isinstance(result_text, basestring):
@@ -165,6 +165,8 @@ class GitCommandRuleBuilder:
             self.smart_option(option, **keyword_arguments)
 
         return self
+
+    convenience_option = option
 
     def build(self):
         return RuleRef(
