@@ -80,6 +80,7 @@ def all_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='branch')
+        .convenience_option('easy all', '--verbose --verbose --all')
         .smart_options([
             # Generated:
             '--abbrev=', '--all', '--color', '--column', '--contains',
@@ -162,6 +163,7 @@ def all_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='fetch')
+        .convenience_option('easy all', '--all --tags --prune')
         .smart_options([
             # Generated:
             '--[no-]recurse-submodules', '--all', '--append', '--deepen=',
@@ -200,7 +202,15 @@ def all_commands(GitCommandRuleBuilder):
         ])
         .build(),
 
-        GitCommandRuleBuilder(name='log', base_options=[Text(' --graph')])
+        GitCommandRuleBuilder(name='log')
+        .convenience_option(
+            'easy all',
+            '--graph --all --oneline --topo-order',
+        )
+        .convenience_option(
+            'easy oneline',
+            '--graph --oneline --topo-order',
+        )
         .smart_options([
             # Generated:
             '--', '--[no-]standard-notes', '--abbrev', '--abbrev-commit',
@@ -269,6 +279,7 @@ def all_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='pull')
+        .convenience_option('easy push', '--rebase && git push')
         .smart_options([
             # Generated:
             '--[no-]recurse-submodules', '--all',
