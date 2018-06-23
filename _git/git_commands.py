@@ -57,6 +57,13 @@ script. These have been marked with a comment saying 'Generated'.
 # TODO More convenience commands
 
 def all_commands(GitCommandRuleBuilder):
+    return (
+        common_commands(GitCommandRuleBuilder)
+        + extra_commands(GitCommandRuleBuilder)
+    )
+
+
+def common_commands(GitCommandRuleBuilder):
     return [
         GitCommandRuleBuilder(name='add')
         .smart_option('.')
@@ -390,6 +397,115 @@ def all_commands(GitCommandRuleBuilder):
             '--ignore-case', '--list', '--local-user=', '--merged',
             '--message=', '--no-column', '--no-contains', '--no-merged',
             '--points-at', '--sign', '--sort=', '--verify',
+        ])
+        .build(),
+    ]
+
+
+def extra_commands(GitCommandRuleBuilder):
+    return [
+        GitCommandRuleBuilder(name='apply')
+        .smart_options([
+            # Generated:
+            '--3way', '--allow-binary-replacement', '--apply', '--binary',
+            '--build-fake-ancestor=', '--cached', '--check', '--directory=',
+            '--exclude=', '--ignore-space-change', '--ignore-whitespace',
+            '--inaccurate-eof', '--include=', '--index', '--no-add',
+            '--numstat', '--recount', '--reject', '--reverse', '--stat',
+            '--summary', '--unidiff-zero', '--unsafe-paths', '--verbose',
+            '--whitespace=',
+        ])
+        .build(),
+
+        GitCommandRuleBuilder(name='blame')
+        .smart_options([
+            # Generated:
+            '--', '--[no-]progress', '--abbrev=', '--contents', '--date',
+            '--diff-filter=', '--encoding=', '--incremental',
+            '--line-porcelain', '--porcelain', '--pretty=', '--reverse',
+            '--root', '--score-debug', '--show-email', '--show-name',
+            '--show-number', '--show-stats', '--since=',
+        ])
+        .build(),
+
+        GitCommandRuleBuilder(name='cherry-pick')
+        .smart_options([
+            # Generated:
+            '--abort', '--allow-empty', '--allow-empty-message', '--continue',
+            '--edit', '--ff', '--gpg-sign', '--keep-redundant-commits',
+            '--mainline', '--merge', '--no-commit', '--quit', '--signoff',
+            '--strategy-option=', '--strategy=',
+        ])
+        .build(),
+
+        GitCommandRuleBuilder(name='config')
+        .smart_options([
+            # Generated:
+            '--', '--[no-]includes', '--[no-]recurse-submodules', '--add',
+            '--all', '--attach', '--auto', '--blob', '--bool', '--bool-or-int',
+            '--branch', '--cc', '--edit', '--file', '--get', '--get-all',
+            '--get-color', '--get-colorbool', '--get-regexp', '--get-urlmatch',
+            '--git-dir', '--global', '--ignore-submodules',
+            '--ignore-submodules=', '--int', '--interactive',
+            '--interactive).', '--list', '--local', '--local-user',
+            '--name-only', '--negotiate', '--no-branch', '--no-index',
+            '--no-short', '--no-tags', '--not', '--ntlm', '--null',
+            '--numbered', '--path', '--pretty=', '--receive-pack',
+            '--remove-section', '--rename-section', '--replace-all',
+            '--scissors', '--short', '--show-origin', '--stat',
+            '--summary-limit', '--system', '--tags', '--to', '--unset',
+            '--unset-all', '--upload-pack', '--work-tree',
+        ])
+        .build(),
+
+        GitCommandRuleBuilder(name='merge-base')
+        .smart_options([
+            # Generated:
+            '--all', '--fork-point', '--independent', '--is-ancestor',
+            '--octopus', '--onto', '--verify',
+        ])
+        .build(),
+
+        GitCommandRuleBuilder(name='revert')
+        .smart_options([
+            # Generated:
+            '--abort', '--continue', '--edit', '--gpg-sign', '--mainline',
+            '--no-commit', '--no-edit', '--quit', '--signoff',
+            '--strategy-option=', '--strategy=',
+        ])
+        .build(),
+
+        GitCommandRuleBuilder(name='shortlog')
+        .smart_options([
+            # Generated:
+            '--committer', '--email', '--format', '--numbered', '--pretty=',
+            '--summary',
+        ])
+        .build(),
+
+        GitCommandRuleBuilder(name='stash')
+        .smart_options([
+            # Generated:
+            '--grep=', '--keep-index', '--merges', '--no-walk', '--patch',
+            '--soft', '--unreachable',
+        ])
+        .build(),
+
+        GitCommandRuleBuilder(name='submodule')
+        .smart_options([
+            # Generated:
+            '--', '--[no-]recommend-shallow', '--all', '--branch', '--cached',
+            '--checkout', '--depth', '--files', '--force', '--init', '--jobs',
+            '--merge', '--name', '--no-fetch', '--quiet', '--rebase',
+            '--recursive', '--reference', '--remote', '--summary-limit',
+        ])
+        .build(),
+
+        GitCommandRuleBuilder(name='worktree')
+        .smart_options([
+            # Generated:
+            '--[no-]checkout', '--detach', '--dry-run', '--expire', '--force',
+            '--lock', '--porcelain', '--reason', '--verbose',
         ])
         .build(),
     ]
