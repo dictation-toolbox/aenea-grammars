@@ -178,6 +178,10 @@ class GitCommandRuleBuilder:
 
     convenience_option = option
 
+    def apply(self, function):
+        function(self)
+        return self
+
     def build(self):
         return RuleRef(
             name=self.data['name'],
