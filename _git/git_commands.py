@@ -1,51 +1,5 @@
 from aenea import Text
 
-'''
-Useful bash script for grabbing all of the options from all help pages. Note
-that it does not pick up sub commands like 'save' in `git stash save`. It also
-may generate too many commands for NatLink to handle, so you will have to just
-pick the options you need anyway:
-
-::
-    #!/bin/bash
-    options_for_command() {
-        git help $1 \
-            | tr " " "\n" \
-            | egrep '^\--.*$' \
-            | egrep -v '/' \
-            | egrep -v '\-{3,}' \
-            | egrep -v '{|}' \
-            | perl -pe 's/\[=.*\]//' \
-            | perl -pe 's/[^\w=\n\[\]<>-]//' \
-            | perl -pe 's/([^=]+)=.*/\1=/' \
-            | perl -pe 's/<.*>//' \
-            | perl -pe 's/^\[(.*)\]$/\1/' \
-            | perl -pe 's/^([^\[\]]+)\]+$/\1/' \
-            | sort \
-            | uniq \
-            | perl -pe "s/(.*)(\n?)/'\1', /"
-    }
-
-    builder_code_for_command() {
-        echo "        GitCommandRuleBuilder(name='$1')"
-        echo "        .smart_options(["
-        echo "            # Generated:"
-        echo "            `options_for_command $1`"
-        echo "        ])"
-        echo "        .build(),"
-        echo
-    }
-
-    builder_code_for_command merge-base
-    builder_code_for_command <YOUR_COMMAND>
-
-NOTE: Most of the Git options in this file have been generated using the above
-script. These have been marked with a comment saying 'Generated'. If there is
-no comment saying that some options have been generated, they have been entered
-manually.
-'''
-
-# TODO remove bash script and docs
 # TODO git remote
 # TODO remove unneeded commands EVERYWHERE and remove the Generateed commands
 # TODO stash nums
