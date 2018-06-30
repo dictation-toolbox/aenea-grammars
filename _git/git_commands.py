@@ -29,10 +29,6 @@ def _add_common_refs(rule_builder):
     rule_builder.smart_options(_COMMON_BRANCH_NAMES)
     rule_builder.smart_options(_COMMON_REMOTE_NAMES)
 
-    # See https://github.com/junegunn/fzf/wiki/Examples#git
-    # TODO Delete this when submitting the pull request
-    rule_builder.option('select branch', '`fbr`')
-
     # TODO Implement this properly in the git grammar
     rule_builder.option('stash at [zero]', 'stash@{0}')
 
