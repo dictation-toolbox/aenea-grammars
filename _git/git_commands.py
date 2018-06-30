@@ -2,9 +2,9 @@ from aenea import Text
 
 '''
 NOTE: Not all possible commands and options are available in this grammar.
-NatLink puts a limit on how complex the grammar can get, and so not all
-commands and options can be added here. If you feel like there is a useful
-command or option missing here, feel free to make a pull request.
+NatLink puts a limit on how complex the grammar can get, and some commands had
+to be removed. If you feel like there is something missing here, feel free to
+add stuff back and make a pull request.
 '''
 
 # TODO remove unneeded commands EVERYWHERE and remove the Generateed commands
@@ -12,7 +12,7 @@ command or option missing here, feel free to make a pull request.
 
 # Common refs for convenience. The user will still have to type out most branch
 # and remote names themselves
-_COMMON_BRANCH_NAMES = ['master', 'develop']
+_COMMON_BRANCH_NAMES = ['master', 'develop', 'HEAD']
 _COMMON_REMOTE_NAMES = ['origin', 'upstream']
 
 
