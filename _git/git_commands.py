@@ -148,15 +148,12 @@ def common_commands(GitCommandRuleBuilder):
         .convenience_option('easy all', '--all --tags --prune')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated:
-            '--[no-]recurse-submodules', '--all', '--append', '--deepen=',
-            '--depth', '--depth=', '--dry-run', '--force', '--ipv4', '--ipv6',
-            '--jobs=', '--keep', '--local', '--mirror', '--multiple',
-            '--no-recurse-submodules', '--no-tags', '--progress', '--prune',
-            '--quiet', '--recurse-submodules', '--recurse-submodules-default=',
-            '--refmap=', '--shallow-exclude=', '--shallow-since=',
-            '--submodule-prefix=', '--tags', '--unshallow', '--update-head-ok',
-            '--update-shallow', '--upload-pack', '--verbose',
+            '--all',
+            '--force',
+            '--prune',
+            '--tags',
+            '--verbose',
+            '--[no-]recurse-submodules',
         ])
         .build(),
 
