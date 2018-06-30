@@ -231,35 +231,19 @@ def common_commands(GitCommandRuleBuilder):
         .convenience_option('easy push', '--rebase && git push')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated:
-            '--[no-]recurse-submodules', '--all',
-            '--allow-unrelated-histories', '--append', '--autostash',
-            '--commit', '--deepen=', '--depth', '--depth=', '--edit', '--ff',
-            '--ff-only', '--force', '--gpg-sign', '--ipv4', '--ipv6', '--keep',
-            '--local', '--log', '--no-autostash', '--no-commit', '--no-edit',
-            '--no-ff', '--no-log', '--no-rebase', '--no-squash', '--no-stat',
-            '--no-summary', '--no-tags', '--no-verify-signatures',
-            '--progress', '--quiet', '--rebase', '--recurse-submodules',
-            '--shallow-exclude=', '--shallow-since=', '--squash', '--stat',
-            '--strategy-option=', '--strategy=', '--summary', '--unshallow',
-            '--update-head-ok', '--update-shallow', '--upload-pack',
-            '--verbose', '--verify-signatures',
+            '--force',
+            '--rebase',
         ])
         .build(),
 
         GitCommandRuleBuilder(name='push')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated:
-            '--[no-]atomic', '--[no-]force-with-lease', '--[no-]signed',
-            '--[no-]thin', '--[no-]verify', '--all', '--amend', '--delete',
-            '--dry-run', '--exec=', '--follow-tags', '--force',
-            '--force-with-lease', '--force-with-lease=', '--ipv4', '--ipv6',
-            '--local', '--mirror', '--no-recurse-submodules', '--no-verify',
-            '--porcelain', '--progress', '--prune', '--push-option', '--quiet',
-            '--rebase,', '--receive-pack=', '--recurse-submodules=', '--repo=',
-            '--set-upstream', '--signed=', '--tags', '--thin', '--verbose',
-            '--verify',
+            '--all',
+            '--delete',
+            '--tags',
+            '--force',
+            '--set-upstream',
         ])
         .build(),
 
