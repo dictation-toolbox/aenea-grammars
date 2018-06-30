@@ -433,6 +433,20 @@ def extra_commands(GitCommandRuleBuilder):
         ])
         .build(),
 
+        GitCommandRuleBuilder(name='remote')
+        .smart_options(_COMMON_REMOTE_NAMES)
+        .smart_options([
+            'add',
+            'remove',
+            'rename',
+            'set-url',
+            'show',
+        ])
+        .smart_options([
+            '--verbose'
+        ])
+        .build(),
+
         GitCommandRuleBuilder(name='revert')
         .smart_options([
             # Generated:
