@@ -1,4 +1,10 @@
-# NOTE: You need to copy this file and git_commands.py to MacroSystem
+import imp
+import os
+try:
+    imp.find_module('git_commands')
+except ImportError:
+    dir = os.path.dirname(os.path.realpath(__file__))
+    raise ImportError('You need to copy the "git_commands.py" file to ' + dir)
 import git_commands
 
 import aenea.config
