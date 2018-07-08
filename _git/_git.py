@@ -187,10 +187,15 @@ class GitCommandRuleBuilder:
 class GitRule(CompoundRule):
     def __init__(self):
         commands = git_commands.all_commands(GitCommandRuleBuilder)
+        spec = '[<cancel>] git [<command_with_options>] [<enter>] [<cancel>]'
 
         super(GitRule, self).__init__(
-            spec='git [<command_with_options>] [<enter>] [<cancel>]',
+            spec=spec,
             extras=[
+                RuleRef(name='cancel', rule=MappingRule(
+                    name='cancel',
+                    mapping={'cancel [last]': Key('c-c')},
+                )),
                 Alternative(
                     name='command_with_options',
                     children=commands,
@@ -199,15 +204,11 @@ class GitRule(CompoundRule):
                     name='enter',
                     mapping={'enter': Key('enter')},
                 )),
-                RuleRef(name='cancel', rule=MappingRule(
-                    name='cancel',
-                    mapping={'cancel': Key('c-c')},
-                )),
             ],
         )
 
     def _process_recognition(self, node, extras):
-        for name in ['command_with_options', 'enter', 'cancel']:
+        for name in ['cancel', 'command_with_options', 'enter']:
             executable = extras.get(name)
             if executable:
                 executable.execute()
