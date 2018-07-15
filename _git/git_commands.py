@@ -266,9 +266,11 @@ def common_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='reset')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated (TODO remove unused options):
-            '--', '--amend', '--cached', '--hard', '--keep', '--merge',
-            '--mixed', '--option', '--quiet', '--soft',
+            '--',
+            '--hard',
+            '--mixed',
+            '--patch',
+            '--soft',
         ])
         .build(),
 
