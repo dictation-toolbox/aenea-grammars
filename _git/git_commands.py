@@ -41,13 +41,13 @@ def all_commands(GitCommandRuleBuilder):
 def common_commands(GitCommandRuleBuilder):
     return [
         GitCommandRuleBuilder(name='add')
+        .smart_options(['.'])
         .smart_options([
             '--',
             '--all',
             '--force',
             '--patch',
             '--update',
-            '.',
         ])
         .build(),
 
@@ -64,6 +64,12 @@ def common_commands(GitCommandRuleBuilder):
             'run',
             'skip',
             'start',
+        ])
+        .smart_options([
+            # Generated:
+            '--', '--hard', '--no-checkout', '--no-commit', '--not',
+            '--objects', '--stat', '--stdout', '--term-bad', '--term-new',
+            '--term-old',
         ])
         .build(),
 
@@ -128,12 +134,29 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='diff')
         .apply(_add_common_refs)
+        .smart_options(['.'])
         .smart_options([
-            '--',
-            '--cached',
-            '--staged',
-            '--stat',
-            '.',
+            # Generated:
+            '--', '--abbrev', '--base', '--binary', '--cached', '--cached.',
+            '--cc', '--check', '--color', '--color-moved', '--color-words',
+            '--combined', '--diff-filter=', '--dirstat', '--dst-prefix=',
+            '--exit-code', '--ext-diff', '--find-copies',
+            '--find-copies-harder', '--find-renames', '--full-index',
+            '--function-context', '--git', '--histogram', '--ignore-all-space',
+            '--ignore-blank-lines', '--ignore-space-at-eol',
+            '--ignore-space-change', '--ignore-submodules',
+            '--indent-heuristic', '--inter-hunk-context=',
+            '--irreversible-delete', '--ita-invisible-in-index',
+            '--line-prefix=', '--minimal', '--name-only', '--name-status',
+            '--no-color', '--no-ext-diff', '--no-indent-heuristic',
+            '--no-index', '--no-patch', '--no-prefix', '--no-renames',
+            '--no-textconv', '--numstat', '--ours', '--patch',
+            '--patch-with-raw', '--patch-with-stat', '--patience',
+            '--pickaxe-all', '--pickaxe-regex', '--quiet', '--raw',
+            '--relative', '--shortstat', '--src-prefix=', '--staged', '--stat',
+            '--submodule', '--summary', '--text', '--textconv', '--theirs',
+            '--unified=', '--word-diff', '--word-diff-regex=',
+            '--ws-error-highlight=',
         ])
         .build(),
 
@@ -299,8 +322,30 @@ def common_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='show')
         .apply(_add_common_refs)
         .smart_options([
-            '--',
-            '--stat',
+            # Generated:
+            '--', '--[no-]standard-notes', '--abbrev', '--abbrev-commit',
+            '--binary', '--cached.', '--cc', '--check', '--color',
+            '--color-moved', '--color-words', '--combined', '--date=',
+            '--decorate', '--diff-filter=', '--dirstat', '--dst-prefix=',
+            '--encoding=', '--exit-code', '--expand-tabs', '--expand-tabs=',
+            '--ext-diff', '--find-copies', '--find-copies-harder',
+            '--find-renames', '--format=', '--full-index',
+            '--function-context', '--git', '--histogram', '--ignore-all-space',
+            '--ignore-blank-lines', '--ignore-space-at-eol',
+            '--ignore-space-change', '--ignore-submodules',
+            '--indent-heuristic', '--inter-hunk-context=',
+            '--irreversible-delete', '--ita-invisible-in-index',
+            '--line-prefix=', '--minimal', '--name-only', '--name-only.',
+            '--name-status', '--no-abbrev', '--no-abbrev-commit', '--no-color',
+            '--no-expand-tabs', '--no-ext-diff', '--no-indent-heuristic',
+            '--no-notes', '--no-patch', '--no-prefix', '--no-renames',
+            '--no-textconv', '--notes', '--notes=', '--numstat', '--oneline',
+            '--patch', '--patch-with-raw', '--patch-with-stat', '--patience',
+            '--pickaxe-all', '--pickaxe-regex', '--pretty', '--pretty=',
+            '--raw', '--relative', '--shortstat', '--show-notes',
+            '--show-signature', '--src-prefix=', '--stat', '--submodule',
+            '--summary', '--text', '--textconv', '--unified=', '--word-diff',
+            '--word-diff-regex=', '--ws-error-highlight=',
         ])
         .build(),
 
