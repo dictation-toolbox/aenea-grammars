@@ -6,6 +6,8 @@ Useful bash script for grabbing all of the options from all help pages:
 ::
     #!/bin/bash
     options_for_command() {
+        # Just change copy and change the $1 in the statement here if you want
+        # to just regenerate the options for a single command
         git help $1 \
             | tr " " "\n" \
             | egrep '^\--.*$' \
@@ -24,17 +26,24 @@ Useful bash script for grabbing all of the options from all help pages:
     }
 
     builder_code_for_command() {
-        echo "        GitCommandRuleBuilder(name='$1')"
-        echo "        .smart_options(["
-        echo "            # Generated:"
-        echo "            `options_for_command $1`"
-        echo "        ])"
-        echo "        .build(),"
+        echo "GitCommandRuleBuilder(name='$command')"
+        echo ".smart_options(["
+        echo "    # Generated:"
+        echo "    `options_for_command $command`"
+        echo "])"
+        echo ".build(),"
         echo
     }
 
-    builder_code_for_command merge-base
-    builder_code_for_command <YOUR_COMMAND>
+    # Note: This doesn't generate all the commands. Just the common ones.
+    # You have to manually run builder_code_for_command on other git commands
+    # to generate the builder code for them.
+    commands=`git help | egrep '^\s{3}\w' | awk '{ print $1 }' | sort`
+
+    for command in $commands; do
+        builder_code_for_command $command
+    done \
+        | less
 
 NOTE: Most of the Git options in this file have been generated using the above
 script. These have been marked with a comment saying 'Generated'.
@@ -42,6 +51,8 @@ script. These have been marked with a comment saying 'Generated'.
 
 
 # TODO common branch name and a boat names
+# TODO simplified bash script above because most people want need to generate
+# all of the commands
 # TODO stash comands
 # TODO More convenience commands
 
