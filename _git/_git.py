@@ -44,23 +44,36 @@ def unload():
 
 class GitCommandRule(CompoundRule):
     '''
+    Terminology:
+    - name: name to give to the rule (to make it unique), acts as a default
+      alias and text
+    - alias: what to say to match this command
+    - text: what gets typed out when this command gets matched
+
     Example things you can say:
-    - git <name>
-    - git <name> <option1> <option2>
-    - git help <name>
+    - git <alias>
+    - git <alias> <option1> <option2>
+    - git help <alias>
     '''
     def __init__(
             self,
             name,
             options,
+            alias=None,
+            text=None,
             default_options=[],
     ):
+        if alias is None:
+            alias = name
+        if text is None:
+            text = name
+
         self.default_options = default_options
-        self.name = name
+        self.text = text
 
         super(GitCommandRule, self).__init__(
             name=name,
-            spec='[help] {} <options>'.format(name),
+            spec='[help] {} <options>'.format(alias),
             extras=[Repetition(
                 name='options',
                 min=0,
@@ -80,7 +93,7 @@ class GitCommandRule(CompoundRule):
 
         output_text = Text('git {}{} '.format(
             'help ' if help else '',
-            self.name,
+            self.text,
         ))
 
         if help:
@@ -111,13 +124,13 @@ class GitCommandRuleBuilder:
 
         return self
 
-    def option(self, alias, option, append_space=True):
+    def option(self, alias, text, append_space=True):
         if alias in self.data:
             raise ValueError('{} is already in {}'.format(alias, self.data))
 
-        result_text = option
+        result_text = text
         if isinstance(result_text, basestring):
-            result_text = Text(option)
+            result_text = Text(text)
         if append_space:
             result_text += Text(' ')
 
