@@ -1,43 +1,26 @@
-from aenea import Text
-
-'''
-Useful bash script for grabbing all of the options from a help page:
-git help <SOME_COMMAND> \
-  | tr " " "\n" \
-  | egrep '^\--[a-zA-Z0-9].*$' \
-  | egrep -v '/' \
-  | egrep -v ');?$' \
-  | egrep -v '\]' \
-  | perl -pe 's/\[(.*)\]/\1/' \
-  | perl -pe 's/<.*>//' \
-  | sort \
-  | uniq \
-  | perl -pe "s/(.*)(\n?)/'\1', /"
-
-NOTE: Most of the Git options in this file have been grabbed using the above
-script.
-'''
+from aenea import (
+    Key,
+    Text,
+)
 
 
 def all_commands(GitCommandRuleBuilder):
     return [
         GitCommandRuleBuilder(name='add')
-        .smart_options(['.'])
+        .double_option(['all'])
+        .option('dot|point', '.')
         .build(),
 
-        GitCommandRuleBuilder(name='commit', base_options=[Text(' -v')])
-        .smart_options(['.', '--'])
-        .smart_options([
-            # Generated:
-            '--all', '--allow-empty', '--allow-empty-message', '--amend',
-            '--author=', '--branch', '--cleanup=', '--date=', '--dry-run',
-            '--edit', '--file=', '--fixup', '--fixup=', '--include',
-            '--interactive', '--long', '--message=', '--no-edit',
-            '--no-gpg-sign', '--no-post-rewrite', '--no-status', '--no-verify',
-            '--null', '--only', '--patch', '--porcelain', '--quiet',
-            '--reedit-message=', '--reset-author', '--reuse-message=',
-            '--short', '--signoff', '--soft', '--squash=', '--status',
-            '--template=', '--verbose',
-        ])
+        GitCommandRuleBuilder(name='commit', base_options=[Text('-v ')])
+        .double_option(['all', 'amend'])
+        .option('dot|point', '.')
+        .option(
+            # NOTE: The user can only say the message option last
+            # NOTE 2: This grammar does not have the capability to write out
+            # the commit message
+            'message',
+            Text('-m ') + Key('squote,squote,left'),
+            append_space=False,
+        )
         .build(),
     ]
