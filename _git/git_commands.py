@@ -4,35 +4,22 @@ from aenea import Text
 Useful bash script for grabbing all of the options from all help pages:
 
 ::
-    #!/bin/bash
-    options_for_command() {
-        git help $command \
-            | tr " " "\n" \
-            | egrep '^\--.*$' \
-            | egrep -v '/' \
-            | egrep -v '\-{3,}' \
-            | egrep -v '\[=<\w+>\]' \
-            | perl -pe 's/[^\w=\n\[\]<>-]//' \
-            | perl -pe 's/([^=]+)=.*/\1=/' \
-            | perl -pe 's/<.*>//' \
-            | perl -pe 's/^\[(.*)\]$/\1/' \
-            | perl -pe 's/^([^\[]+)\]/\1/' \
-            | sort \
-            | uniq \
-            | perl -pe "s/(.*)(\n?)/'\1', /"
-    }
 
-    commands=`git help | egrep '^\s{3}\w' | awk '{ print $1 }' | sort`
+    commands=`git help | egrep '^\s{3}\w' | awk '{ print $1 }'`
+    # TODO Continue this
 
-    for command in $commands; do
-        echo "GitCommandRuleBuilder(name='$command')"
-        echo ".smart_options(["
-        echo "    # Generated:"
-        echo "    `options_for_command`"
-        echo "])"
-        echo ".build()"
-        echo
-    done
+    git help <SOME_COMMAND> \
+      | tr " " "\n" \
+      | egrep '^\--.*$' \
+      | egrep -v '/' \
+      | egrep -v '\-{3,}' \
+      | perl -pe 's/[^\w=\n\[\]<>-]//' \
+      | perl -pe 's/([^=]+)=.*/\1=/' \
+      | perl -pe 's/<.*>//' \
+      | perl -pe 's/^\[(.*)\]$/\1/' \
+      | sort \
+      | uniq \
+      | perl -pe "s/(.*)(\n?)/'\1', /"
 
 NOTE: Most of the Git options in this file have been generated using the above
 script. These have been marked with a comment saying 'Generated'.
