@@ -143,22 +143,11 @@ class GitCommandRuleBuilder:
         return self
 
     def smart_options(self, options, **keyword_arguments):
-        optional_pattern = r'-(.*)\[(.+)?\](.*)'
-
         for option in options:
             if option == '.':
                 alias = 'dot|point'
             elif re.match(r'^-+$', option):
                 alias = 'dash ' * len(option)
-            elif re.match(optional_pattern, option):
-                # For example, option = '--[no-]progress'
-                self.smart_options([
-                    # For example, '--no-progress'
-                    re.sub(optional_pattern, r'-\1\2\3', option, count=1),
-                    # For example, '--progress'
-                    re.sub(optional_pattern, r'-\1\3', option, count=1),
-                ], **keyword_arguments)
-                continue
             else:
                 alias = re.sub(r'[^a-zA-Z0-9]', ' ', option)
 
