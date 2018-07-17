@@ -1,10 +1,7 @@
 import aenea.config
 import aenea.configuration
 
-from aenea.proxy_contexts import ProxyAppContext
-
 from dragonfly import (
-    AppContext,
     Grammar,
     MappingRule,
     RuleRef,
@@ -35,7 +32,6 @@ class GitAddOptionRule(MappingRule):
         'edit': '--edit ',
         'update': '--update ',
         'all': '--all ',
-        'dot': '. ',
         'no ignore removal': '--no-ignore-removal ',
         'no all': '--no-all ',
         'ignore removal': '--ignore-removal ',
@@ -86,6 +82,7 @@ class GitCommitOptionRule(MappingRule):
         'no post rewrite': '--no-post-rewrite ',
         'include': '--include ',
         'only': '--only ',
+        'verbose': '--verbose ',
         'quiet': '--quiet ',
         'dry run': '--dry-run ',
         'status': '--status ',
@@ -106,7 +103,7 @@ class GitCommitRule(CompoundRule):
     extras = [commit_options]
 
     def value(self, node):
-        return 'commit -v ' + recurse_values(node, [GitCommitOptionRule])
+        return 'commit ' + recurse_values(node, [GitCommitOptionRule])
 commit_rule = RuleRef(name='commit_rule', rule=GitCommitRule())
 
 
@@ -125,8 +122,6 @@ class GitCheckoutOptionRule(MappingRule):
             'ignore skip worktree bits': '--ignore-skip-worktree-bits ',
             'merge': '--merge ',
             'patch': '--patch ',
-            'file': '-- ',
-            'dash': '- '
         })
 checkout_option = RuleRef(
     name='checkout_option', rule=GitCheckoutOptionRule()
@@ -134,83 +129,6 @@ checkout_option = RuleRef(
 checkout_options = Repetition(
     checkout_option, min=1, max=10, name="checkout_options"
 )
-
-
-class GitResetOptionRule(MappingRule):
-    mapping = aenea.configuration.make_grammar_commands(
-        'git_reset_options', {
-            'soft': '--soft ',
-            'hard': '--hard ',
-            'patch': '--patch ',
-        })
-reset_option = RuleRef(
-    name='reset_option', rule=GitResetOptionRule()
-)
-reset_options = Repetition(
-    reset_option, min=1, max=10, name="reset_options"
-)
-
-
-class GitResetRule(CompoundRule):
-    spec = 'reset [<reset_options>]'
-    extras = [reset_options]
-
-    def value(self, node):
-        return 'reset ' + recurse_values(node, [GitResetOptionRule])
-reset_rule = RuleRef(name='reset_rule', rule=GitResetRule())
-
-
-class GitDiffOptionRule(MappingRule):
-    mapping = aenea.configuration.make_grammar_commands(
-        'git_diff_options', {
-            'stat': '--stat ',
-            'staged': '--staged ',
-            'cached': '--cached ',
-            '(ignore [all] [white] (spaces|space))': '--ignore-all-space ',
-        })
-diff_option = RuleRef(
-    name='diff_option', rule=GitDiffOptionRule()
-)
-diff_options = Repetition(
-    diff_option, min=1, max=10, name="diff_options"
-)
-
-
-class GitDiffRule(CompoundRule):
-    spec = 'diff [<diff_options>]'
-    extras = [diff_options]
-
-    def value(self, node):
-        return 'diff ' + recurse_values(node, [GitDiffOptionRule])
-diff_rule = RuleRef(name='diff_rule', rule=GitDiffRule())
-
-
-class GitStashOptionRule(MappingRule):
-    mapping = aenea.configuration.make_grammar_commands(
-        'git_stash_options', {
-            'show': 'show ',
-            'verbose': '-v ',
-            'save': 'save ',
-            'drop': 'drop ',
-            'pop': 'pop ',
-            'apply': 'apply ',
-            'list': 'list ',
-        })
-stash_option = RuleRef(
-    name='stash_option', rule=GitStashOptionRule()
-)
-stash_options = Repetition(
-    stash_option, min=1, max=10, name="stash_options"
-)
-
-
-class GitStashRule(CompoundRule):
-    spec = 'stash [<stash_options>]'
-    extras = [stash_options]
-
-    def value(self, node):
-        return 'stash ' + recurse_values(node, [GitStashOptionRule])
-stash_rule = RuleRef(name='stash_rule', rule=GitStashRule())
 
 
 class GitCheckoutRule(CompoundRule):
@@ -365,42 +283,15 @@ class GitPullRule(CompoundRule):
 pull_rule = RuleRef(name="pull_rule", rule=GitPullRule())
 
 
-class GitRebaseOption(MappingRule):
-    mapping = aenea.configuration.make_grammar_commands(
-        "git_rebase_options", {
-            "interactive": "--interactive ",
-            "abort": "--abort ",
-            "skip": "--skip ",
-            "continue": "--continue ",
-            "quit": "--quit ",
-        }
-    )
-rebase_option = RuleRef(name="rebase_option", rule=GitRebaseOption())
-rebase_options = Repetition(rebase_option, min=1, max=10, name="rebase_options")
-
-
-class GitRebaseRule(CompoundRule):
-    spec = "rebase [<rebase_options>]"
-    extras = [rebase_options]
-
-    def value(self, node):
-        return "rebase " + recurse_values(node, [GitRebaseOption])
-rebase_rule = RuleRef(name="rebase_rule", rule=GitRebaseRule())
-
-
 git_command = Alternative(name='command', children=[
     add_rule,
     commit_rule,
     checkout_rule,
-    diff_rule,
     push_rule,
     status_rule,
     log_rule,
     branch_rule,
     pull_rule,
-    stash_rule,
-    rebase_rule,
-    reset_rule,
 ])
 
 
@@ -417,36 +308,8 @@ class GitRule(CompoundRule):
         return value
 
 
-# Temporary (TODO move these into proper commands)
-class GitWordRule(MappingRule):
-    mapping = {
-        'git cherry-pick ': Text('git cherry-pick '),
-        'git revert ': Text('git revert '),
-        'git merge ': Text('git merge '),
-        'git show ': Text('git show '),
-        'git fetch [all]': Text('git fetch --all '),
-        'git log all ': Text('glga '),
-        'git log one line ': Text('glgo '),
-        'git bisect good ': Text('git bisect good '),
-        'git bisect bad ': Text('git bisect bad '),
-        'git bisect start ': Text('git bisect start '),
-        'git bisect end ': Text('git bisect end '),
-        'git clone': Text('git clone '),
-        'git remote': Text('git remote '),
-        'git config': Text('git config '),
-    }
-
-
-context = aenea.wrappers.AeneaContext(
-    ProxyAppContext(
-        match='regex',
-        app_id='(?i)(?:(?:DOS|CMD).*)|(?:.*(?:TERM|SHELL).*)',
-    ),
-    AppContext(title='git')
-)
-git_grammar = Grammar('git', context=context)
+git_grammar = Grammar('git')
 git_grammar.add_rule(GitRule())
-git_grammar.add_rule(GitWordRule())
 git_grammar.load()
 
 
