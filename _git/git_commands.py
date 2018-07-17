@@ -1,9 +1,8 @@
 from aenea import Text
 
 '''
-Useful bash script for grabbing all of the options from all help pages. Note
-that it does not pick up sub commands like 'save' in `git stash save`. Good
-luck understanding this by the way:
+Useful bash script for grabbing all of the options from all help pages (good
+luck understanding this):
 
 ::
     #!/bin/bash
@@ -46,6 +45,7 @@ manually.
 
 
 # TODO common branch name and a boat names
+# TODO More convenience commands
 
 def all_commands(GitCommandRuleBuilder):
     return (
@@ -274,7 +274,7 @@ def common_commands(GitCommandRuleBuilder):
         ])
         .build(),
 
-        GitCommandRuleBuilder(name='mv', alias='move|em-vee')
+        GitCommandRuleBuilder(name='mv')
         .smart_options([
             # Generated:
             '--dry-run', '--force', '--verbose',
@@ -338,7 +338,7 @@ def common_commands(GitCommandRuleBuilder):
         ])
         .build(),
 
-        GitCommandRuleBuilder(name='rm', alias='remove|are-em')
+        GitCommandRuleBuilder(name='rm')
         .smart_options([
             # Generated:
             '--', '--cached', '--diff-filter=', '--dry-run', '--force',
@@ -493,10 +493,6 @@ def extra_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='submodule')
         .smart_options([
-            'absorbgitdirs', 'add', 'deinit', 'foreach', 'init', 'status',
-            'summary', 'sync', 'update',
-        ])
-        .smart_options([
             # Generated:
             '--', '--[no-]recommend-shallow', '--all', '--branch', '--cached',
             '--checkout', '--depth', '--files', '--force', '--init', '--jobs',
@@ -506,9 +502,6 @@ def extra_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='worktree')
-        .smart_options([
-            'add', 'list', 'lock', 'prune', 'unlock',
-        ])
         .smart_options([
             # Generated:
             '--[no-]checkout', '--detach', '--dry-run', '--expire', '--force',
