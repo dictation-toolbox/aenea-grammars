@@ -14,6 +14,8 @@ https://gist.github.com/dylan-chong/ecf701b1a623c9f2ccb78cbb5db700c6 . Ideally,
 when adding a new command, just add the options that are commonly used.
 '''
 
+# TODO remove unneeded commands EVERYWHERE and remove the Generateed commands
+# TODO stash nums
 
 # Common refs for convenience. The user will still have to type out most branch
 # and remote names themselves
@@ -22,6 +24,8 @@ _COMMON_REMOTE_NAMES = ['origin', 'upstream']
 
 
 def _add_common_refs(rule_builder):
+    # TODO This create a lot of mappings, making the grammar complex. Move this
+    # into the grammar itself and have an option to enable it
     for remote in _COMMON_REMOTE_NAMES:
         for branch in _COMMON_BRANCH_NAMES:
             rule_builder.smart_options([remote + '/' + branch])
@@ -32,9 +36,6 @@ def _add_common_refs(rule_builder):
     # See https://github.com/junegunn/fzf/wiki/Examples#git
     # TODO Delete this when submitting the pull request
     rule_builder.option('select branch', '`fbr`')
-
-    # TODO Implement this properly in the git grammar
-    rule_builder.option('stash at [zero]', 'stash@{0}')
 
 
 def all_commands(GitCommandRuleBuilder):
