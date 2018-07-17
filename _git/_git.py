@@ -6,51 +6,54 @@ from aenea.proxy_contexts import ProxyAppContext
 from dragonfly import (
     AppContext,
     Grammar,
-    RuleRef,
     MappingRule,
+    RuleRef,
+    Repetition,
     Alternative,
     CompoundRule,
 )
 
-from aenea import (
-    Key,
-    Text,
-)
-
-# TODO
-import json
-
-#  from aenea import Text
+from aenea import Text
 
 # TODO What is aenea.configuration.make_grammar_commands
 
 
-class GitCommandRule(CompoundRule):
+class GitAddRule(CompoundRule):
+    spec = "add [<add_options>]"
+    extras = [add_options]
+
     def value(self, node):
         try:
-            json.dumps(node)
+            # TODO
             pass
         except Exception as e:
             print(e)
+add_rule = RuleRef(name='add_rule', rule=GitAddRule())
 
 
-class GitRule(CompoundRule):
-    spec = 'git [command] [<cancel>] [<enter>]'
-    extras = [
-        #          Alternative(name='command', children=[
-        #              RuleRef(name='add', rule=GitCommandRule(
-        #                  name='add',
-        #              )),
-        #          ]),
-        RuleRef(name='cancel', rule=MappingRule(name='cancel', mapping={'cancel': Key('c-c')})),
-        RuleRef(name='enter', rule=MappingRule(name='enter', mapping={'enter': Key('enter')})),
-    ]
+class GitAddOptionRule(MappingRule):
+    spec = {
+        'hello': 'hello ',
+        'world': 'world ',
+    }
 
-    def _process_recognition(self, node, extras):
-        print('extras', extras)
-        for name, executable in extras.iteritems():
-#              executable.execute()
-            print(name, executable)
+
+add_option = RuleRef(name='add_option', rule=GitAddOptionRule())
+add_options = Repetition(add_option, min=1, max=10, name='add_options')
+
+
+# TODO generate children with dsl
+git_command = Alternative(name='command', children=[
+    add_rule,
+])
+
+
+class TopLevelRule(CompoundRule):
+    spec = 'git <command>'
+    extras = [git_command]
+
+    def process_recognition(self, node):
+        self.value(node).execute()
 
 
 context = aenea.wrappers.AeneaContext(
@@ -61,7 +64,7 @@ context = aenea.wrappers.AeneaContext(
     AppContext(title='git'),
 )
 git_grammar = Grammar('git', context=context)
-git_grammar.add_rule(GitRule())
+git_grammar.add_rule(TopLevelRule())
 git_grammar.load()
 
 
