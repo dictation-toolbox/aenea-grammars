@@ -1,8 +1,7 @@
 from aenea import Text
 
 '''
-Useful bash script for grabbing all of the options from all help pages (good
-luck understanding this):
+Useful bash script for grabbing all of the options from all help pages:
 
 ::
     #!/bin/bash
@@ -43,7 +42,7 @@ script. These have been marked with a comment saying 'Generated'.
 
 
 # TODO common branch name and a boat names
-# TODO by sect,stash comands
+# TODO stash comands
 # TODO More convenience commands
 
 def all_commands(GitCommandRuleBuilder):
@@ -56,7 +55,7 @@ def all_commands(GitCommandRuleBuilder):
 def common_commands(GitCommandRuleBuilder):
     return [
         GitCommandRuleBuilder(name='add')
-        .smart_options(['.'])
+        .smart_option('.')
         .smart_options([
             # Generated:
             '--', '--[no-]ignore-removal', '--all', '--chmod=', '--dry-run',
@@ -117,7 +116,7 @@ def common_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='commit', base_options=[Text(' -v')])
-        .smart_options(['.'])
+        .smart_option('.')
         .smart_options([
             # Generated:
             '--', '--all', '--allow-empty', '--allow-empty-message', '--amend',
@@ -133,7 +132,7 @@ def common_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='diff')
-        .smart_options(['.'])
+        .smart_option('.')
         .smart_options([
             # Generated:
             '--', '--abbrev', '--base', '--binary', '--cached', '--cached.',
