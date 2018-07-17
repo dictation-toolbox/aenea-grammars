@@ -383,7 +383,6 @@ def extra_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='revert')
-        .apply(_add_common_refs)
         .smart_options([
             # Generated:
             '--abort', '--continue', '--edit', '--gpg-sign', '--mainline',
