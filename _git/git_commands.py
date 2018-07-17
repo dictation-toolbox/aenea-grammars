@@ -2,13 +2,15 @@ from aenea import Text
 
 '''
 NOTE: Not all possible commands and options are available in this grammar.
-NatLink puts a limit on how complex the grammar can get, and so not all
-commands and options can be added here. If you feel like there is a useful
-command or option missing here, feel free to make a pull request.
+NatLink puts a limit on how complex the grammar can get, and so the commands
+and options listed below are just the ones that should be useful for most
+people. If you feel like there is something missing here, feel free to make a
+pull request.
 '''
 
 # TODO remove unneeded commands EVERYWHERE and remove the Generateed commands
 # TODO stash nums
+# TODO git flow?
 
 # Common refs for convenience. The user will still have to type out most branch
 # and remote names themselves
@@ -43,28 +45,21 @@ def common_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='add')
         .smart_options(['.'])
         .smart_options([
-            '--',
-            '--all',
-            '--force',
-            '--patch',
-            '--update',
+            # Generated:
+            '--', '--[no-]ignore-removal', '--all', '--chmod=', '--dry-run',
+            '--edit', '--force', '--ignore-errors', '--ignore-missing',
+            '--ignore-removal', '--intent-to-add', '--interactive', '--no-all',
+            '--no-ignore-removal', '--no-warn-embedded-repo', '--patch',
+            '--refresh', '--update', '--verbose',
         ])
         .build(),
 
         GitCommandRuleBuilder(name='bisect')
-        .smart_options([
-            'bad',
-            'good',
-            'log',
-            'new',
-            'next',
-            'old',
-            'replay',
-            'reset',
-            'run',
-            'skip',
-            'start',
-        ])
+        .smart_options(
+            # Generated from the output of `git bisect` without any arguments
+            ('help|start|bad|good|new|old|terms|skip|next|reset|visualize|'
+             + 'replay|log|run').split('|')
+        )
         .smart_options([
             # Generated:
             '--', '--hard', '--no-checkout', '--no-commit', '--not',
