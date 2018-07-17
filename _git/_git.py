@@ -4,13 +4,12 @@ import aenea.configuration
 from aenea.proxy_contexts import ProxyAppContext
 
 from dragonfly import (
-    Alternative,
     AppContext,
-    CompoundRule,
     Grammar,
-    MappingRule,
-    Repetition,
     RuleRef,
+    MappingRule,
+    Alternative,
+    CompoundRule,
 )
 
 from aenea import (
@@ -26,31 +25,7 @@ import json
 # TODO What is aenea.configuration.make_grammar_commands
 
 
-#  class GitCommandOptionRule(MappingRule):
-#      def __init__(self, possible_options):
-#          super(GitCommandRule, self).__init__(
-#              mapping=possible_options
-#          )
-
-
 class GitCommandRule(CompoundRule):
-    def __init__(self, name, options, command_alias=None):
-        if command_alias is None:
-            command_alias = name
-
-        super(GitCommandRule, self).__init__(
-            spec=command_alias + ' <options>',
-            extras=[Repetition(
-                name='options',
-                min=0,
-                max=10,
-                child=RuleRef(MappingRule(
-                    name=name + '_options',
-                    mapping=options,
-                )),
-            )],
-        )
-
     def value(self, node):
         try:
             json.dumps(node)
@@ -60,31 +35,21 @@ class GitCommandRule(CompoundRule):
 
 
 class GitRule(CompoundRule):
-    spec = 'git [<command>] [<enter>] [<cancel>]'
+    spec = 'git [command] [<cancel>] [<enter>]'
     extras = [
-        Alternative(name='command', children=[
-            RuleRef(name='add', rule=GitCommandRule(
-                name='add',
-                options={
-                    'all': Text('--all '),
-                    'dot|point': Text('. '),
-                }
-            )),
-        ]),
-        RuleRef(name='enter', rule=MappingRule(
-            name='enter',
-            mapping={'enter': Key('enter')},
-        )),
-        RuleRef(name='cancel', rule=MappingRule(
-            name='cancel',
-            mapping={'cancel': Key('c-c')},
-        )),
+        #          Alternative(name='command', children=[
+        #              RuleRef(name='add', rule=GitCommandRule(
+        #                  name='add',
+        #              )),
+        #          ]),
+        RuleRef(name='cancel', rule=MappingRule(name='cancel', mapping={'cancel': Key('c-c')})),
+        RuleRef(name='enter', rule=MappingRule(name='enter', mapping={'enter': Key('enter')})),
     ]
 
     def _process_recognition(self, node, extras):
         print('extras', extras)
         for name, executable in extras.iteritems():
-            #              executable.execute()
+#              executable.execute()
             print(name, executable)
 
 
