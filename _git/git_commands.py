@@ -1,5 +1,3 @@
-from aenea import Text
-
 '''
 Useful bash script for grabbing all of the options from all help pages:
 
@@ -31,13 +29,10 @@ Useful bash script for grabbing all of the options from all help pages:
         echo "    # Generated:"
         echo "    `options_for_command $command`"
         echo "])"
-        echo ".build(),"
+        echo ".build()"
         echo
     }
 
-    # Note: This doesn't generate all the commands. Just the common ones.
-    # You have to manually run builder_code_for_command on other git commands
-    # to generate the builder code for them.
     commands=`git help | egrep '^\s{3}\w' | awk '{ print $1 }' | sort`
 
     for command in $commands; do
@@ -53,8 +48,7 @@ script. These have been marked with a comment saying 'Generated'.
 # TODO common branch name and a boat names
 # TODO simplified bash script above because most people want need to generate
 # all of the commands
-# TODO stash comands
-# TODO More convenience commands
+# TODO blame,stash comands
 
 def all_commands(GitCommandRuleBuilder):
     return [
@@ -118,7 +112,7 @@ def all_commands(GitCommandRuleBuilder):
         ])
         .build(),
 
-        GitCommandRuleBuilder(name='commit', base_options=[Text(' -v')])
+        GitCommandRuleBuilder(name='commit')
         .smart_option('.')
         .smart_options([
             # Generated:
@@ -135,7 +129,6 @@ def all_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='diff')
-        .smart_option('.')
         .smart_options([
             # Generated:
             '--', '--abbrev', '--base', '--binary', '--cached', '--cached.',
@@ -200,7 +193,7 @@ def all_commands(GitCommandRuleBuilder):
         ])
         .build(),
 
-        GitCommandRuleBuilder(name='log', base_options=[Text(' --graph')])
+        GitCommandRuleBuilder(name='log')
         .smart_options([
             # Generated:
             '--', '--[no-]standard-notes', '--abbrev', '--abbrev-commit',
