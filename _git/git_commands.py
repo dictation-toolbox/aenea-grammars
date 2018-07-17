@@ -45,11 +45,11 @@ no comment saying that some options have been generated, they have been entered
 manually.
 '''
 
-# TODO remove bash script and docs
+# TODO remove unneeded commands here
+# TODO remove bash script
+# TODO stash nums
 # TODO Personal fzf setup branches
 # TODO git remote
-# TODO remove unneeded commands EVERYWHERE and remove the Generateed commands
-# TODO stash nums
 # TODO git flow?
 
 # Common refs for convenience. The usable still have to type out most branch
@@ -257,7 +257,6 @@ def common_commands(GitCommandRuleBuilder):
             '--patch',
             '--stat',
             '--topo-order',
-            '--word-diff',
         ])
         .build(),
 
