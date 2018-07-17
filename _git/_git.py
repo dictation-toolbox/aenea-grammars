@@ -1,9 +1,7 @@
-# NOTE: You need to copy this file and git_commands.py to MacroSystem
-import git_commands
-
 import aenea.config
 import aenea.configuration
 import re
+import git_commands
 
 from aenea.proxy_contexts import ProxyAppContext
 
