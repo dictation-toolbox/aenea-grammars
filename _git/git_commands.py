@@ -1,20 +1,16 @@
 from aenea import Text
 
-'''
-NOTE: Not all possible commands and options are available in this grammar.
-NatLink puts a limit on how complex the grammar can get, and so the commands
-and options listed below are just the ones that should be useful for most
-people. If you feel like there is something missing here, feel free to make a
-pull request.
-'''
-
+# TODO git remote
 # TODO remove unneeded commands EVERYWHERE and remove the Generateed commands
 # TODO stash nums
 # TODO git flow?
 
-# Common refs for convenience. The user will still have to type out most branch
+# Common refs for convenience. The usable still have to type out most branch
 # and remote names themselves
-_COMMON_BRANCH_NAMES = ['master', 'develop']
+_COMMON_BRANCH_NAMES = [
+    'master',
+    'develop',
+]
 _COMMON_REMOTE_NAMES = ['origin', 'upstream']
 
 
