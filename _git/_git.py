@@ -43,13 +43,9 @@ def unload():
 
 
 class GitCommandRule(CompoundRule):
-    def __init__(self, name, options, command_alias=None, text=None):
+    def __init__(self, name, options, command_alias=None):
         if command_alias is None:
             command_alias = name
-        if text is None:
-            text = name
-
-        self.text = text
 
         super(GitCommandRule, self).__init__(
             name=name,
@@ -69,7 +65,7 @@ class GitCommandRule(CompoundRule):
         sequence_values = node.children[0].children[0].value()
         option_values = sequence_values[1]
 
-        text = Text('git {} '.format(self.text))
+        text = Text(self.name + ' ')
         for option in option_values:
             text += option
 
@@ -87,14 +83,6 @@ class GitRule(CompoundRule):
                     'dot|point': Text('. '),
                 }
             )),
-            RuleRef(name='commit', rule=GitCommandRule(
-                name='commit',
-                text='commit -v',
-                options={
-                    'all': Text('--all '),
-                    'dot|point': Text('. '),
-                }
-            )),
         ]),
         RuleRef(name='enter', rule=MappingRule(
             name='enter',
@@ -107,11 +95,10 @@ class GitRule(CompoundRule):
     ]
 
     def _process_recognition(self, node, extras):
-        print('extras', extras)  # TODO
+        print('extras', extras)
         for name, executable in extras.iteritems():
-            print(name, str(executable))  # TODO
-            if executable:
-                executable.execute()
+            #              executable.execute()
+            print(name, executable)
 
 
 load()
