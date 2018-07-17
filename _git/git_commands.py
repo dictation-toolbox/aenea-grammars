@@ -14,7 +14,7 @@ git help <SOME_COMMAND> \
   | uniq \
   | perl -pe "s/(.*)(\n?)/'\1', /"
 
-NOTE: Most of the Git options in this file have been generated using the above
+NOTE: Most of the Git options in this file have been grabbed using the above
 script.
 '''
 
