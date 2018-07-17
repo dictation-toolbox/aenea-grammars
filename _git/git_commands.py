@@ -46,6 +46,7 @@ manually.
 '''
 
 # TODO remove bash script and docs
+# TODO Personal fzf setup branches
 # TODO git remote
 # TODO remove unneeded commands EVERYWHERE and remove the Generateed commands
 # TODO stash nums
