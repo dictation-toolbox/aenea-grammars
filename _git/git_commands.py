@@ -74,7 +74,7 @@ def common_commands(GitCommandRuleBuilder):
         .convenience_option('easy all', '--verbose --verbose --all')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--abbrev=', '--all', '--color', '--column', '--contains',
             '--copy', '--create-reflog', '--delete', '--edit-description',
             '--force', '--format', '--ignore-case', '--list', '--merged',
@@ -90,7 +90,7 @@ def common_commands(GitCommandRuleBuilder):
         .option('branch|be', '-b')
         .smart_options(['.', '-'])
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--', '--[no-]progress', '--[no-]recurse-submodules',
             '--conflict=', '--detach', '--force', '--ignore-other-worktrees',
             '--ignore-skip-worktree-bits', '--merge',
@@ -102,7 +102,7 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='clone')
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--[no-]shallow-submodules', '--[no-]single-branch', '--bare',
             '--branch', '--config', '--depth', '--dissociate', '--jobs',
             '--local', '--mirror', '--no-checkout', '--no-hardlinks',
@@ -116,7 +116,7 @@ def common_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='commit', base_options=[Text(' -v')])
         .smart_options(['.'])
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--', '--all', '--allow-empty', '--allow-empty-message', '--amend',
             '--author=', '--branch', '--cleanup=', '--date=', '--dry-run',
             '--edit', '--file=', '--fixup', '--fixup=', '--gpg-sign',
@@ -155,7 +155,7 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='grep')
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--', '--after-context', '--all-match', '--and', '--basic-regexp',
             '--before-context', '--break', '--cached', '--color', '--context',
             '--count', '--exclude-standard', '--extended-regexp',
@@ -172,7 +172,7 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='init')
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--bare', '--quiet', '--separate-git-dir', '--separate-git-dir=',
             '--shared', '--template=',
         ])
@@ -208,7 +208,7 @@ def common_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='merge')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--[no-]rerere-autoupdate', '--abort',
             '--allow-unrelated-histories', '--commit', '--continue', '--edit',
             '--ff', '--ff-only', '--gpg-sign', '--log', '--no-commit',
@@ -222,7 +222,7 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='mv', alias='move|em-vee')
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--dry-run', '--force', '--verbose',
         ])
         .build(),
@@ -250,7 +250,7 @@ def common_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='rebase')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--abort', '--autosquash', '--autostash',
             '--committer-date-is-author-date', '--continue', '--edit-todo',
             '--exec', '--force-rebase', '--fork-point', '--gpg-sign',
@@ -266,7 +266,7 @@ def common_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='reset')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--', '--amend', '--cached', '--hard', '--keep', '--merge',
             '--mixed', '--option', '--quiet', '--soft',
         ])
@@ -274,7 +274,7 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='rm', alias='remove|are-em')
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--', '--cached', '--diff-filter=', '--dry-run', '--force',
             '--ignore-unmatch', '--name-only', '--quiet',
         ])
@@ -290,7 +290,7 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='status')
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--', '--branch', '--column', '--ignore-submodules',
             '--ignore-submodules=', '--ignored', '--long', '--no-column',
             '--porcelain', '--short', '--show-stash', '--summary-limit',
@@ -300,7 +300,7 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='tag')
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--annotate', '--cleanup=', '--color', '--column', '--contains',
             '--create-reflog', '--delete', '--file=', '--force',
             '--ignore-case', '--list', '--local-user=', '--merged',
@@ -315,7 +315,7 @@ def extra_commands(GitCommandRuleBuilder):
     return [
         GitCommandRuleBuilder(name='apply')
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--3way', '--allow-binary-replacement', '--apply', '--binary',
             '--build-fake-ancestor=', '--cached', '--check', '--directory=',
             '--exclude=', '--ignore-space-change', '--ignore-whitespace',
@@ -328,7 +328,7 @@ def extra_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='blame')
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--', '--[no-]progress', '--abbrev=', '--contents', '--date',
             '--diff-filter=', '--encoding=', '--incremental',
             '--line-porcelain', '--porcelain', '--pretty=', '--reverse',
@@ -340,7 +340,7 @@ def extra_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='cherry-pick')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--abort', '--allow-empty', '--allow-empty-message', '--continue',
             '--edit', '--ff', '--gpg-sign', '--keep-redundant-commits',
             '--mainline', '--merge', '--no-commit', '--quit', '--signoff',
@@ -372,7 +372,7 @@ def extra_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='merge-base')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--all', '--fork-point', '--independent', '--is-ancestor',
             '--octopus', '--onto', '--verify',
         ])
@@ -395,7 +395,7 @@ def extra_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='revert')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--abort', '--continue', '--edit', '--gpg-sign', '--mainline',
             '--no-commit', '--no-edit', '--quit', '--signoff',
             '--strategy-option=', '--strategy=',
@@ -405,7 +405,7 @@ def extra_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='shortlog')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--committer', '--email', '--format', '--numbered', '--pretty=',
             '--summary',
         ])
@@ -417,7 +417,7 @@ def extra_commands(GitCommandRuleBuilder):
             'push', 'save', 'save', 'show', 'store',
         ])
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--grep=', '--keep-index', '--merges', '--no-walk', '--patch',
             '--soft', '--unreachable',
         ])
@@ -429,7 +429,7 @@ def extra_commands(GitCommandRuleBuilder):
             'summary', 'sync', 'update',
         ])
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--', '--[no-]recommend-shallow', '--all', '--branch', '--cached',
             '--checkout', '--depth', '--files', '--force', '--init', '--jobs',
             '--merge', '--name', '--no-fetch', '--quiet', '--rebase',
@@ -443,7 +443,7 @@ def extra_commands(GitCommandRuleBuilder):
             'add', 'list', 'lock', 'move', 'prune', 'remove', 'unlock',
         ])
         .smart_options([
-            # Generated (TODO remove unused options):
+            # Generated:
             '--[no-]checkout', '--detach', '--dry-run', '--expire', '--force',
             '--lock', '--porcelain', '--reason', '--verbose',
         ])
