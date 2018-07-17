@@ -119,7 +119,15 @@ class GitCommandRuleBuilder:
 
     def double_option(self, alias, **keyword_arguments):
         '''For example, "--alias".'''
-        return self.option(alias, '--' + alias, **keyword_arguments)
+        if isinstance(alias, (list, tuple)):
+            aliases = alias
+        else:
+            aliases = [alias]
+
+        for al in aliases:
+            self.option(al, '--' + al, **keyword_arguments)
+
+        return self
 
     def option(self, alias, option, append_space=True):
         if alias in self.data:
@@ -135,19 +143,6 @@ class GitCommandRuleBuilder:
         return self
 
     def smart_options(self, options, **keyword_arguments):
-        '''
-        Accepts a variety of inputs, and converts them into an appropriate
-        format for dictation. For example, all of the following are valid:
-
-        ::
-
-            [
-                '.',
-                '-', '--',
-                'some-option', '--another-option',
-                '--[no-]using-the-thing',
-            ]
-        '''
         optional_pattern = r'-(.*)\[(.+)?\](.*)'
 
         for option in options:
