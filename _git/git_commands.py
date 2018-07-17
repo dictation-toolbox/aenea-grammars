@@ -64,12 +64,11 @@ _COMMON_REMOTE_NAMES = ['origin', 'upstream']
 
 
 def _common_refs():
-    # TODO This create a lot of mappings, making the grammar complex. Move this
-    # into the grammar itself and have an option to enable it
     refs = []
     for remote in _COMMON_REMOTE_NAMES:
-        for branch in _COMMON_BRANCH_NAMES:
-            refs.append(remote + '/' + branch)
+        for separator in [' ', '/']:
+            for branch in _COMMON_BRANCH_NAMES:
+                refs.append(remote + separator + branch)
 
     refs.extend(_COMMON_BRANCH_NAMES)
     refs.extend(_COMMON_REMOTE_NAMES)
