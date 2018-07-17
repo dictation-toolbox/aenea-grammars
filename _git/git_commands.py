@@ -6,40 +6,33 @@ Useful bash script for grabbing all of the options from all help pages:
 ::
     #!/bin/bash
     options_for_command() {
-        git help $1 \
-        git help tag \
+        git help $command \
             | tr " " "\n" \
             | egrep '^\--.*$' \
             | egrep -v '/' \
             | egrep -v '\-{3,}' \
-            | egrep -v '{|}' \
-            | perl -pe 's/\[=.*\]//' \
+            | egrep -v '\[=<\w+>\]' \
             | perl -pe 's/[^\w=\n\[\]<>-]//' \
             | perl -pe 's/([^=]+)=.*/\1=/' \
             | perl -pe 's/<.*>//' \
             | perl -pe 's/^\[(.*)\]$/\1/' \
-            | perl -pe 's/^([^\[\]]+)\]+$/\1/' \
+            | perl -pe 's/^([^\[]+)\]/\1/' \
             | sort \
             | uniq \
             | perl -pe "s/(.*)(\n?)/'\1', /"
     }
 
-    builder_code_for_command() {
-        echo "GitCommandRuleBuilder(name='$command')"
-        echo ".smart_options(["
-        echo "    # Generated:"
-        echo "    `options_for_command $command`"
-        echo "])"
-        echo ".build()"
-        echo
-    }
-
     commands=`git help | egrep '^\s{3}\w' | awk '{ print $1 }' | sort`
 
     for command in $commands; do
-        builder_code_for_command $command
-    done \
-        | less
+        echo "GitCommandRuleBuilder(name='$command')"
+        echo ".smart_options(["
+        echo "    # Generated:"
+        echo "    `options_for_command`"
+        echo "])"
+        echo ".build()"
+        echo
+    done
 
 NOTE: Most of the Git options in this file have been generated using the above
 script. These have been marked with a comment saying 'Generated'.
@@ -47,12 +40,11 @@ script. These have been marked with a comment saying 'Generated'.
 
 
 # TODO common branch name and a boat names
-# TODO blame,stash comands
 
 def all_commands(GitCommandRuleBuilder):
     return [
         GitCommandRuleBuilder(name='add')
-        .smart_option('.')
+        .smart_options(['.'])
         .smart_options([
             # Generated:
             '--', '--all,', '--chmod', '--dry-run', '--dry-run.', '--edit',
@@ -64,7 +56,7 @@ def all_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='commit', base_options=[Text(' -v')])
-        .smart_option('.')
+        .smart_options(['.'])
         .smart_options([
             # Generated:
             '--', '--all', '--allow-empty', '--allow-empty-message', '--amend',
