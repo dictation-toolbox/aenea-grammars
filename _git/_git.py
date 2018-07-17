@@ -21,25 +21,11 @@ from aenea import (
 # TODO What is aenea.configuration.make_grammar_commands
 
 
-def load():
-    global git_grammar
-    context = aenea.wrappers.AeneaContext(
-        ProxyAppContext(
-            match='regex',
-            app_id='(?i)(?:(?:DOS|CMD).*)|(?:.*(?:TERM|SHELL).*)',
-        ),
-        AppContext(title='git'),
-    )
-    git_grammar = Grammar('git', context=context)
-    git_grammar.add_rule(GitRule())
-    git_grammar.load()
-
-
-def unload():
-    global git_grammar
-    if git_grammar:
-        git_grammar.unload()
-    git_grammar = None
+#  class GitCommandOptionRule(MappingRule):
+#      def __init__(self, possible_options):
+#          super(GitCommandRule, self).__init__(
+#              mapping=possible_options
+#          )
 
 
 class GitCommandRule(CompoundRule):
@@ -101,4 +87,20 @@ class GitRule(CompoundRule):
             print(name, executable)
 
 
-load()
+context = aenea.wrappers.AeneaContext(
+    ProxyAppContext(
+        match='regex',
+        app_id='(?i)(?:(?:DOS|CMD).*)|(?:.*(?:TERM|SHELL).*)',
+    ),
+    AppContext(title='git'),
+)
+git_grammar = Grammar('git', context=context)
+git_grammar.add_rule(GitRule())
+git_grammar.load()
+
+
+def unload():
+    global git_grammar
+    if git_grammar:
+        git_grammar.unload()
+    git_grammar = None
