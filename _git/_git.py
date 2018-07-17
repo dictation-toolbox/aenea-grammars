@@ -43,14 +43,9 @@ def unload():
 
 
 class GitCommandRule(CompoundRule):
-    '''Terminology:
-    - name: name to give to the rule (to make it unique), acts as a default
-      alias and text
-    - alias: what to say to match this command
-    - text: what gets typed out when this command gets matched'''
-    def __init__(self, name, options, alias=None, text=None):
-        if alias is None:
-            alias = name
+    def __init__(self, name, options, command_alias=None, text=None):
+        if command_alias is None:
+            command_alias = name
         if text is None:
             text = name
 
@@ -58,7 +53,7 @@ class GitCommandRule(CompoundRule):
 
         super(GitCommandRule, self).__init__(
             name=name,
-            spec=alias + ' <options>',
+            spec=command_alias + ' <options>',
             extras=[Repetition(
                 name='options',
                 min=0,
@@ -81,66 +76,25 @@ class GitCommandRule(CompoundRule):
         return text
 
 
-class GitCommandRuleBuilder:
-    def __init__(self, **data):
-        if 'options' not in data:
-            data['options'] = dict()
-        self.data = data
-
-    def double_option(self, alias, **keyword_arguments):
-        '''For example, "--alias".'''
-        if isinstance(alias, (list, tuple)):
-            aliases = alias
-        else:
-            aliases = [alias]
-
-        for al in aliases:
-            self.option(al, '--' + al, **keyword_arguments)
-
-        return self
-
-    def option(self, alias, text, append_space=True):
-        if alias in self.data:
-            raise ValueError('{} is already in {}'.format(alias, self.data))
-
-        result_text = text
-        if isinstance(result_text, basestring):
-            result_text = Text(text)
-        if append_space:
-            result_text += Text(' ')
-
-        self.data['options'][alias] = result_text
-        return self
-
-    def build(self):
-        return RuleRef(
-            name=self.data['name'],
-            rule=GitCommandRule(**self.data),
-        )
-
-
 class GitRule(CompoundRule):
-    spec = 'git [<command_with_options>] [<enter>] [<cancel>]'
+    spec = 'git [<command>] [<enter>] [<cancel>]'
     extras = [
-        Alternative(name='command_with_options', children=[
-            GitCommandRuleBuilder(name='add')
-            .double_option('all')
-            .build(),
-            #              RuleRef(name='add', rule=GitCommandRule(
-            #                  name='add',
-            #                  options={
-            #                      'all': Text('--all '),
-            #                      'dot|point': Text('. '),
-            #                  }
-            #              )),
-            #              RuleRef(name='commit', rule=GitCommandRule(
-            #                  name='commit',
-            #                  text='commit -v',
-            #                  options={
-            #                      'all': Text('--all '),
-            #                      'dot|point': Text('. '),
-            #                  }
-            #              )),
+        Alternative(name='command', children=[
+            RuleRef(name='add', rule=GitCommandRule(
+                name='add',
+                options={
+                    'all': Text('--all '),
+                    'dot|point': Text('. '),
+                }
+            )),
+            RuleRef(name='commit', rule=GitCommandRule(
+                name='commit',
+                text='commit -v',
+                options={
+                    'all': Text('--all '),
+                    'dot|point': Text('. '),
+                }
+            )),
         ]),
         RuleRef(name='enter', rule=MappingRule(
             name='enter',
