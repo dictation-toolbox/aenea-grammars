@@ -353,12 +353,6 @@ def extra_commands(GitCommandRuleBuilder):
         ])
         .build(),
 
-        GitCommandRuleBuilder(name='ls-files', alias='(el-es|list) files')
-        .smart_options([
-            '--no-empty-directory',
-        ])
-        .build(),
-
         GitCommandRuleBuilder(name='merge-base')
         .apply(_add_common_refs)
         .smart_options([
