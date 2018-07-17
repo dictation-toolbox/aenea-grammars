@@ -350,7 +350,21 @@ def extra_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='config')
         .smart_options([
-            '--global',
+            # Generated:
+            '--', '--[no-]includes', '--[no-]recurse-submodules', '--add',
+            '--all', '--attach', '--auto', '--blob', '--bool', '--bool-or-int',
+            '--branch', '--cc', '--edit', '--file', '--get', '--get-all',
+            '--get-color', '--get-colorbool', '--get-regexp', '--get-urlmatch',
+            '--git-dir', '--global', '--ignore-submodules',
+            '--ignore-submodules=', '--int', '--interactive',
+            '--interactive).', '--list', '--local', '--local-user',
+            '--name-only', '--negotiate', '--no-branch', '--no-index',
+            '--no-short', '--no-tags', '--not', '--ntlm', '--null',
+            '--numbered', '--path', '--pretty=', '--receive-pack',
+            '--remove-section', '--rename-section', '--replace-all',
+            '--scissors', '--short', '--show-origin', '--stat',
+            '--summary-limit', '--system', '--tags', '--to', '--unset',
+            '--unset-all', '--upload-pack', '--work-tree',
         ])
         .build(),
 
