@@ -8,7 +8,10 @@ Useful bash script for grabbing all of the options from all help pages:
     commands=`git help | egrep '^\s{3}\w' | awk '{ print $1 }'`
     # TODO Continue this
 
+
+    # TODO tidy this
     git help <SOME_COMMAND> \
+    git help checkout \
       | tr " " "\n" \
       | egrep '^\--.*$' \
       | egrep -v '/' \
@@ -18,6 +21,7 @@ Useful bash script for grabbing all of the options from all help pages:
       | perl -pe 's/<.*>//' \
       | perl -pe 's/^\[(.*)\]$/\1/' \
       | sort \
+      | uniq
       | uniq \
       | perl -pe "s/(.*)(\n?)/'\1', /"
 
@@ -54,19 +58,6 @@ def all_commands(GitCommandRuleBuilder):
             '--only', '--patch', '--porcelain', '--quiet', '--reedit-message',
             '--reset-author', '--reuse-message', '--short', '--signoff',
             '--soft', '--squash', '--status', '--template', '--verbose',
-        ])
-        .build(),
-
-        GitCommandRuleBuilder(name='checkout')
-        .smart_options(['.', '-'])
-        .smart_options([
-            # Generated:
-            '--', '--[no-]progress', '--[no-]recurse-submodules',
-            '--conflict=', '--detach', '--force', '--ignore-other-worktrees',
-            '--ignore-skip-worktree-bits', '--merge',
-            '--no-recurse-submodules', '--no-track', '--orphan', '--ours',
-            '--patch', '--quiet', '--recurse-submodules', '--theirs',
-            '--track',
         ])
         .build(),
     ]
