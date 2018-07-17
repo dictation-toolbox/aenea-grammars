@@ -2,9 +2,8 @@ from aenea import Text
 
 '''
 Useful bash script for grabbing all of the options from all help pages. Note
-that it does not pick up sub commands like 'save' in `git stash save`. It also
-may generate too many commands for NatLink to handle, so you will have to just
-pick the options you need anyway:
+that it does not pick up sub commands like 'save' in `git stash save`. Good
+luck understanding this by the way:
 
 ::
     #!/bin/bash
@@ -45,8 +44,6 @@ no comment saying that some options have been generated, they have been entered
 manually.
 '''
 
-# TODO remove unneeded commands here
-# TODO remove bash script
 # TODO stash nums
 # TODO Personal fzf setup branches
 # TODO git remote
@@ -54,7 +51,15 @@ manually.
 
 # Common refs for convenience. The usable still have to type out most branch
 # and remote names themselves
-_COMMON_BRANCH_NAMES = ['master', 'develop']
+_COMMON_BRANCH_NAMES = [
+    # common branches
+    'master', 'develop',
+    # git flow branch prefixes
+    'feature', 'release', 'hotfix',
+    # other branch prefixes
+    'bug', 'test', 'junk', 'feat',
+]
+
 _COMMON_REMOTE_NAMES = ['origin', 'upstream']
 
 
@@ -245,18 +250,48 @@ def common_commands(GitCommandRuleBuilder):
         )
         .smart_options(_common_refs())
         .smart_options([
-            # Not generated because there are too many options
-            '--',
-            '--all',
-            '--author-date-order',
-            '--date-order',
-            '--decorate',
-            '--first-parent',
-            '--graph',
-            '--oneline',
-            '--patch',
-            '--stat',
-            '--topo-order',
+            # Generated:
+            '--', '--[no-]standard-notes', '--abbrev', '--abbrev-commit',
+            '--after=', '--all', '--all-match', '--ancestry-path',
+            '--author-date-order', '--author=', '--basic-regexp', '--before=',
+            '--binary', '--bisect', '--boundary', '--branches', '--cached.',
+            '--cc', '--check', '--cherry', '--cherry-mark', '--cherry-pick',
+            '--children', '--color', '--color-moved', '--color-words',
+            '--combined', '--committer=', '--date-order', '--date=',
+            '--decorate', '--dense', '--diff-filter=', '--dirstat',
+            '--do-walk', '--dst-prefix=', '--encoding=', '--exclude=',
+            '--exit-code', '--expand-tabs', '--expand-tabs=', '--ext-diff',
+            '--extended-regexp', '--find-copies', '--find-copies-harder',
+            '--find-renames', '--first-parent', '--fixed-strings', '--follow',
+            '--format=', '--full-diff', '--full-history', '--full-index',
+            '--function-context', '--git', '--glob=', '--graph',
+            '--grep-reflog=', '--grep=', '--histogram', '--ignore-all-space',
+            '--ignore-blank-lines', '--ignore-missing',
+            '--ignore-space-at-eol', '--ignore-space-change',
+            '--ignore-submodules', '--indent-heuristic',
+            '--inter-hunk-context=', '--invert-grep', '--irreversible-delete',
+            '--ita-invisible-in-index', '--left-only', '--left-right',
+            '--line-prefix=', '--log-size', '--max-count=', '--max-parents=',
+            '--merge', '--merges', '--min-parents=', '--minimal',
+            '--name-only', '--name-status', '--no-abbrev',
+            '--no-abbrev-commit', '--no-color', '--no-decorate',
+            '--no-expand-tabs', '--no-ext-diff', '--no-indent-heuristic',
+            '--no-max-parents', '--no-merges', '--no-min-parents',
+            '--no-notes', '--no-patch', '--no-prefix', '--no-renames',
+            '--no-textconv', '--no-walk', '--not', '--notes', '--notes=',
+            '--numstat', '--oneline', '--parents', '--patch',
+            '--patch-with-raw', '--patch-with-stat', '--patience',
+            '--perl-regexp', '--pickaxe-all', '--pickaxe-regex', '--pretty',
+            '--pretty=', '--raw', '--reflog', '--regexp-ignore-case',
+            '--relative', '--relative-date', '--remotes', '--remove-empty',
+            '--reverse', '--right-only', '--shortstat', '--show-linear-break',
+            '--show-notes', '--show-signature', '--simplify-by-decoration',
+            '--simplify-merges', '--since=', '--single-worktree', '--skip=',
+            '--source', '--sparse', '--src-prefix=', '--stat', '--stdin',
+            '--submodule', '--summary', '--tags', '--text', '--textconv',
+            '--topo-order', '--unified=', '--until=', '--use-mailmap',
+            '--walk-reflogs', '--word-diff', '--word-diff-regex=',
+            '--ws-error-highlight=',
         ])
         .build(),
 
