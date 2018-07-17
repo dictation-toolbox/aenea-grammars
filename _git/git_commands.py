@@ -44,37 +44,8 @@ no comment saying that some options have been generated, they have been entered
 manually.
 '''
 
-# TODO stash nums
-# TODO Personal fzf setup branches
-# TODO git remote
-# TODO git flow?
 
-# Common refs for convenience. The usable still have to type out most branch
-# and remote names themselves
-_COMMON_BRANCH_NAMES = [
-    # common branches
-    'master', 'develop',
-    # git flow branch prefixes
-    'feature', 'release', 'hotfix',
-    # other branch prefixes
-    'bug', 'test', 'junk', 'feat',
-]
-
-_COMMON_REMOTE_NAMES = ['origin', 'upstream']
-
-
-def _common_refs():
-    refs = []
-    for remote in _COMMON_REMOTE_NAMES:
-        for separator in [' ', '/']:
-            for branch in _COMMON_BRANCH_NAMES:
-                refs.append(remote + separator + branch)
-
-    refs.extend(_COMMON_BRANCH_NAMES)
-    refs.extend(_COMMON_REMOTE_NAMES)
-
-    return refs
-
+# TODO common branch name and a boat names
 
 def all_commands(GitCommandRuleBuilder):
     return (
@@ -113,7 +84,6 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='branch')
         .convenience_option('easy all', '--verbose --verbose --all')
-        .smart_options(_common_refs())
         .smart_options([
             # Generated:
             '--abbrev=', '--all', '--color', '--column', '--contains',
@@ -127,7 +97,6 @@ def common_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='checkout')
-        .smart_options(_common_refs())
         .smart_options(['.', '-'])
         .smart_options([
             # Generated:
@@ -170,7 +139,6 @@ def common_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='diff')
-        .smart_options(_common_refs())
         .smart_options(['.'])
         .smart_options([
             # Generated:
@@ -199,7 +167,6 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='fetch')
         .convenience_option('easy all', '--all --tags --prune')
-        .smart_options(_common_refs())
         .smart_options([
             # Generated:
             '--[no-]recurse-submodules', '--all', '--append', '--deepen=',
@@ -247,7 +214,6 @@ def common_commands(GitCommandRuleBuilder):
             'easy oneline',
             '--graph --oneline --topo-order',
         )
-        .smart_options(_common_refs())
         .smart_options([
             # Generated:
             '--', '--[no-]standard-notes', '--abbrev', '--abbrev-commit',
@@ -295,7 +261,6 @@ def common_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='merge')
-        .smart_options(_common_refs())
         .smart_options([
             # Generated:
             '--[no-]rerere-autoupdate', '--abort',
@@ -318,7 +283,6 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='pull')
         .convenience_option('easy push', '--rebase && git push')
-        .smart_options(_common_refs())
         .smart_options([
             # Generated:
             '--[no-]recurse-submodules', '--all',
@@ -337,7 +301,6 @@ def common_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='push')
-        .smart_options(_common_refs())
         .smart_options([
             # Generated:
             '--[no-]atomic', '--[no-]force-with-lease', '--[no-]signed',
@@ -353,7 +316,6 @@ def common_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='rebase')
-        .smart_options(_common_refs())
         .smart_options([
             # Generated:
             '--abort', '--autosquash', '--autostash',
@@ -369,7 +331,6 @@ def common_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='reset')
-        .smart_options(_common_refs())
         .smart_options([
             # Generated:
             '--', '--amend', '--cached', '--hard', '--keep', '--merge',
@@ -386,7 +347,6 @@ def common_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='show')
-        .smart_options(_common_refs())
         .smart_options([
             # Generated:
             '--', '--[no-]standard-notes', '--abbrev', '--abbrev-commit',
@@ -465,7 +425,6 @@ def extra_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='cherry-pick')
-        .smart_options(_common_refs())
         .smart_options([
             # Generated:
             '--abort', '--allow-empty', '--allow-empty-message', '--continue',
@@ -496,7 +455,6 @@ def extra_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='merge-base')
-        .smart_options(_common_refs())
         .smart_options([
             # Generated:
             '--all', '--fork-point', '--independent', '--is-ancestor',
@@ -514,7 +472,6 @@ def extra_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='shortlog')
-        .smart_options(_common_refs())
         .smart_options([
             # Generated:
             '--committer', '--email', '--format', '--numbered', '--pretty=',
@@ -549,7 +506,6 @@ def extra_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='worktree')
-        .smart_options(_common_refs())
         .smart_options([
             'add', 'list', 'lock', 'prune', 'unlock',
         ])
