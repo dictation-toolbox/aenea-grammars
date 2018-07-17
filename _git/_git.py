@@ -117,6 +117,10 @@ class GitCommandRuleBuilder:
             data['options'] = dict()
         self.data = data
 
+    def double_option(self, alias, **keyword_arguments):
+        '''For example, "--alias".'''
+        return self.option(alias, '--' + alias, **keyword_arguments)
+
     def option(self, alias, option, append_space=True):
         if alias in self.data:
             raise ValueError('{} is already in {}'.format(alias, self.data))
@@ -130,39 +134,41 @@ class GitCommandRuleBuilder:
         self.data['options'][alias] = result_text
         return self
 
-    def smart_option(self, option, **keyword_arguments):
+    def smart_options(self, options, **keyword_arguments):
         '''
         Accepts a variety of inputs, and converts them into an appropriate
         format for dictation. For example, all of the following are valid:
 
-        :code:`['.', '-', '--', 'some-option', '--another-option',
-        '--[no-]using-the-thing']`
+        ::
+
+            [
+                '.',
+                '-', '--',
+                'some-option', '--another-option',
+                '--[no-]using-the-thing',
+            ]
         '''
         optional_pattern = r'-(.*)\[(.+)?\](.*)'
 
-        if option == '.':
-            alias = 'dot|point'
-        elif re.match(r'^-+$', option):
-            alias = 'dash ' * len(option)
-        elif re.match(optional_pattern, option):
-            # For example, option = '--[no-]progress'
-            return self.smart_options([
-                # For example, '--no-progress'
-                re.sub(optional_pattern, r'-\1\2\3', option, count=1),
-                # For example, '--progress'
-                re.sub(optional_pattern, r'-\1\3', option, count=1),
-            ], **keyword_arguments)
-        else:
-            alias = re.sub(r'[^a-zA-Z0-9]', ' ', option)
-
-        alias = alias.strip()
-        return self.option(alias, option, **keyword_arguments)
-
-    def smart_options(self, options, **keyword_arguments):
-        '''See smart_option()'''
-
         for option in options:
-            self.smart_option(option, **keyword_arguments)
+            if option == '.':
+                alias = 'dot|point'
+            elif re.match(r'^-+$', option):
+                alias = 'dash ' * len(option)
+            elif re.match(optional_pattern, option):
+                # For example, option = '--[no-]progress'
+                self.smart_options([
+                    # For example, '--no-progress'
+                    re.sub(optional_pattern, r'-\1\2\3', option, count=1),
+                    # For example, '--progress'
+                    re.sub(optional_pattern, r'-\1\3', option, count=1),
+                ], **keyword_arguments)
+                continue
+            else:
+                alias = re.sub(r'[^a-zA-Z0-9]', ' ', option)
+
+            alias = alias.strip()
+            self.option(alias, option, **keyword_arguments)
 
         return self
 
