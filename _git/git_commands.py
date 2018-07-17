@@ -523,7 +523,7 @@ def extra_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='worktree')
         .apply(_add_common_refs)
         .smart_options([
-            'add', 'list', 'lock', 'move', 'prune', 'remove', 'unlock',
+            'add', 'list', 'lock', 'prune', 'unlock',
         ])
         .smart_options([
             # Generated:
