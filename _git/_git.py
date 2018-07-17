@@ -18,6 +18,11 @@ from aenea import (
     Text,
 )
 
+# TODO
+import json
+
+#  from aenea import Text
+
 # TODO What is aenea.configuration.make_grammar_commands
 
 
@@ -34,7 +39,6 @@ class GitCommandRule(CompoundRule):
             command_alias = name
 
         super(GitCommandRule, self).__init__(
-            name=name,
             spec=command_alias + ' <options>',
             extras=[Repetition(
                 name='options',
@@ -48,14 +52,11 @@ class GitCommandRule(CompoundRule):
         )
 
     def value(self, node):
-        sequence_values = node.children[0].children[0].value()
-        option_values = sequence_values[1]
-
-        text = Text(self.name + ' ')
-        for option in option_values:
-            text += option
-
-        return text
+        try:
+            json.dumps(node)
+            pass
+        except Exception as e:
+            print(e)
 
 
 class GitRule(CompoundRule):
