@@ -20,6 +20,8 @@ from aenea import (
     Text,
 )
 
+# TODO What is aenea.configuration.make_grammar_commands
+
 
 def load():
     global git_grammar
@@ -52,8 +54,11 @@ def wrap_options(options):
 
 
 def unwrap_values(values):
-    # see wrap_options()
-    return [value for value, in values]
+    return list(map(
+        # unwrap (see wrap_options())
+        lambda wrapped: wrapped[0],
+        values,
+    ))
 
 
 class GitCommandRule(CompoundRule):
