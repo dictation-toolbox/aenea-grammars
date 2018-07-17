@@ -47,7 +47,6 @@ def common_commands(GitCommandRuleBuilder):
             '--',
             '--all',
             '--force',
-            '--interactive',
             '--patch',
             '--update',
             '.',
@@ -345,15 +344,6 @@ def extra_commands(GitCommandRuleBuilder):
             '--edit', '--ff', '--gpg-sign', '--keep-redundant-commits',
             '--mainline', '--merge', '--no-commit', '--quit', '--signoff',
             '--strategy-option=', '--strategy=',
-        ])
-        .build(),
-
-        GitCommandRuleBuilder(name='clean')
-        .apply(_add_common_refs)
-        .option('directories', '-d')
-        .smart_options([
-            '--dry-run',
-            '--force',
         ])
         .build(),
 
