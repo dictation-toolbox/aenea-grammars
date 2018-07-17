@@ -5,13 +5,6 @@ NOTE: Not all possible commands and options are available in this grammar.
 NatLink puts a limit on how complex the grammar can get, and some commands had
 to be removed. If you feel like there is something missing here, feel free to
 add stuff back and make a pull request.
-
-NOTE 2: Lists of options were grepped from the Git help pages using a bash
-script. These have been marked with the comment 'Generated'. Some of these
-generated lists are too long, so had to be shortened (see note above). You can
-find the script here in case you find it useful
-https://gist.github.com/dylan-chong/ecf701b1a623c9f2ccb78cbb5db700c6 . Ideally,
-when adding a new command, just add the options that are commonly used.
 '''
 
 # TODO remove unneeded commands EVERYWHERE and remove the Generateed commands
