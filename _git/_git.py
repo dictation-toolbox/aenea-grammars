@@ -132,7 +132,7 @@ class GitCommandRuleBuilder:
         self.data['options'][alias] = result_text
         return self
 
-    def _smart_option(self, option, **keyword_arguments):
+    def smart_option(self, option, **keyword_arguments):
         '''
         Accepts a variety of inputs, and converts them into an appropriate
         format for dictation. For example, all of the following are valid:
@@ -156,15 +156,15 @@ class GitCommandRuleBuilder:
                 re.sub(optional_pattern, r'-\1\3', option, count=1),
             ], **keyword_arguments)
         else:
-            return self.simple_options([option])
+            return self.stripped_option(option)
 
         return self.option(alias, option, **keyword_arguments)
 
     def smart_options(self, options, **keyword_arguments):
-        '''See documentation for _smart_option()'''
+        '''See smart_option()'''
 
         for option in options:
-            self._smart_option(option, **keyword_arguments)
+            self.smart_option(option, **keyword_arguments)
 
         return self
 
