@@ -249,6 +249,7 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='rebase')
         .apply(_add_common_refs)
+        .smart_options(['-'])
         .smart_options([
             # Generated (TODO remove unused options):
             '--abort', '--autosquash', '--autostash',
