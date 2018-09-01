@@ -88,7 +88,7 @@ def common_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='checkout')
         .apply(_add_common_refs)
         .option('branch|be', '-b')
-        .smart_options(['.', '-'])
+        .smart_options(['.', '-', '--'])
         .smart_options([
             # Generated (TODO remove unused options):
             '--', '--[no-]progress', '--[no-]recurse-submodules',

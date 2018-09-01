@@ -153,6 +153,8 @@ class GitCommandRuleBuilder:
         if option == '.':
             alias = 'dot|point'
         elif re.match(r'^-+$', option):
+            # TODO change to double dash to avoid conflicts between the
+            # different number of dashes
             alias = 'dash ' * len(option)
         elif re.match(optional_pattern, option):
             # For example, option = '--[no-]progress'
