@@ -32,6 +32,12 @@ def _add_common_refs(rule_builder):
     # TODO Implement this properly in the git grammar
     rule_builder.option('stash at [zero]', 'stash@{0}')
 
+    # See https://github.com/junegunn/fzf/wiki/Examples#git
+    # (If you install FZF (https://github.com/junegunn/fzf) in your terminal
+    # and save the fbr command linked above in your `~/.fzf.bash`, this will
+    # bring up a fuzzy finder where you can type in the name of a branch.)
+    rule_builder.option('select branch', '`fbr`')
+
 
 def all_commands(GitCommandRuleBuilder):
     return (
