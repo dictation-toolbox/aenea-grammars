@@ -342,6 +342,7 @@ def extra_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='cherry-pick')
         .apply(_add_common_refs)
+        .smart_options(['-'])
         .smart_options([
             # Generated (TODO remove unused options):
             '--abort', '--allow-empty', '--allow-empty-message', '--continue',
