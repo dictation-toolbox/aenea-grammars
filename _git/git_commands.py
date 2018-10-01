@@ -74,14 +74,13 @@ def common_commands(GitCommandRuleBuilder):
         .convenience_option('easy all', '--verbose --verbose --all')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated (TODO remove unused options):
-            '--abbrev=', '--all', '--color', '--column', '--contains',
-            '--copy', '--create-reflog', '--delete', '--edit-description',
-            '--force', '--format', '--ignore-case', '--list', '--merged',
-            '--move', '--no-abbrev', '--no-color', '--no-column',
-            '--no-contains', '--no-merged', '--no-track', '--points-at',
-            '--quiet', '--remotes', '--set-upstream', '--set-upstream-to=',
-            '--sort=', '--track', '--unset-upstream', '--verbose',
+            '--all',
+            '--delete',  # the same as '-d'
+            '--force',  # '--force --delete' is the same as '-D'
+            '--list',
+            '--move',
+            '--set-upstream',
+            '--verbose',
         ])
         .build(),
 
