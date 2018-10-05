@@ -212,6 +212,8 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='merge')
         .apply(_add_common_refs)
+        .option('fast forward only', '--ff-only')
+        .option('no fast forward', '--no-ff')
         .smart_options([
             '--abort',
             '--allow-unrelated-histories',
