@@ -159,20 +159,7 @@ def common_commands(GitCommandRuleBuilder):
         .build(),
 
         GitCommandRuleBuilder(name='grep')
-        .smart_options([
-            # Generated (TODO remove unused options):
-            '--', '--after-context', '--all-match', '--and', '--basic-regexp',
-            '--before-context', '--break', '--cached', '--color', '--context',
-            '--count', '--exclude-standard', '--extended-regexp',
-            '--files-with-matches', '--files-without-match', '--fixed-strings',
-            '--full-name', '--function-context', '--heading', '--ignore-case',
-            '--invert-match', '--line-number', '--max-depth', '--name-only',
-            '--no-color', '--no-exclude-standard', '--no-index',
-            '--no-textconv', '--not', '--null', '--open-files-in-pager',
-            '--or', '--perl-regexp', '--quiet', '--recurse-submodules',
-            '--show-function', '--text', '--textconv', '--threads',
-            '--untracked', '--word-regexp',
-        ])
+        .option('extended', '--extended-regexp')
         .build(),
 
         GitCommandRuleBuilder(name='init')
