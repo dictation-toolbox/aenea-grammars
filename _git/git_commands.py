@@ -95,12 +95,8 @@ def common_commands(GitCommandRuleBuilder):
         .option('branch|be', '-b')
         .smart_options(['.', '-', '--'])
         .smart_options([
-            # Generated (TODO remove unused options):
-            '--', '--[no-]progress', '--[no-]recurse-submodules',
-            '--conflict=', '--detach', '--force', '--ignore-other-worktrees',
-            '--ignore-skip-worktree-bits', '--merge',
-            '--no-recurse-submodules', '--no-track', '--orphan', '--ours',
-            '--patch', '--quiet', '--recurse-submodules', '--theirs',
+            '--',
+            '--patch',
             '--track',
         ])
         .build(),
