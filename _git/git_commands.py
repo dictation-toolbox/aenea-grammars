@@ -121,16 +121,15 @@ def common_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='commit', base_options=[Text(' -v')])
         .smart_options(['.'])
         .smart_options([
-            # Generated (TODO remove unused options):
-            '--', '--all', '--allow-empty', '--allow-empty-message', '--amend',
-            '--author=', '--branch', '--cleanup=', '--date=', '--dry-run',
-            '--edit', '--file=', '--fixup', '--fixup=', '--gpg-sign',
-            '--include', '--interactive', '--long', '--message=', '--no-edit',
-            '--no-gpg-sign', '--no-post-rewrite', '--no-status', '--no-verify',
-            '--null', '--only', '--patch', '--porcelain', '--quiet',
-            '--reedit-message=', '--reset-author', '--reuse-message=',
-            '--short', '--signoff', '--soft', '--squash', '--squash=',
-            '--status', '--template=', '--untracked-files', '--verbose',
+            '--',
+            '--all',
+            '--allow-empty',
+            '--amend',
+            '--cleanup=',
+            '--interactive',
+            '--long',
+            '--message=',
+            '--patch',
         ])
         .build(),
 
