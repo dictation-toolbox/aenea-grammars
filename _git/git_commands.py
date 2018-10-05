@@ -213,15 +213,10 @@ def common_commands(GitCommandRuleBuilder):
         GitCommandRuleBuilder(name='merge')
         .apply(_add_common_refs)
         .smart_options([
-            # Generated (TODO remove unused options):
-            '--[no-]rerere-autoupdate', '--abort',
-            '--allow-unrelated-histories', '--commit', '--continue', '--edit',
-            '--ff', '--ff-only', '--gpg-sign', '--log', '--no-commit',
-            '--no-edit', '--no-ff', '--no-log', '--no-progress', '--no-squash',
-            '--no-stat', '--no-summary', '--no-verify-signatures',
-            '--progress', '--quiet', '--signoff', '--squash', '--stat',
-            '--strategy-option=', '--strategy=', '--summary', '--verbose',
-            '--verify-signatures',
+            '--abort',
+            '--allow-unrelated-histories',
+            '--commit',
+            '--continue',
         ])
         .build(),
 
