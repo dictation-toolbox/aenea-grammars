@@ -152,9 +152,7 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='init')
         .smart_options([
-            # Generated (TODO remove unused options):
-            '--bare', '--quiet', '--separate-git-dir', '--separate-git-dir=',
-            '--shared', '--template=',
+            '--quiet',
         ])
         .build(),
 
