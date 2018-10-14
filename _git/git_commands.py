@@ -103,14 +103,7 @@ def common_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='clone')
         .smart_options([
-            # Generated (TODO remove unused options):
-            '--[no-]shallow-submodules', '--[no-]single-branch', '--bare',
-            '--branch', '--config', '--depth', '--dissociate', '--jobs',
-            '--local', '--mirror', '--no-checkout', '--no-hardlinks',
-            '--no-tags', '--origin', '--progress', '--quiet',
-            '--recurse-submodules', '--reference', '--reference[-if-able]',
-            '--separate-git-dir=', '--shallow-exclude=', '--shallow-since=',
-            '--shared', '--template=', '--upload-pack', '--verbose',
+            '--branch',
         ])
         .build(),
 
