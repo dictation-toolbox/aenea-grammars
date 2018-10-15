@@ -166,6 +166,7 @@ def common_commands(GitCommandRuleBuilder):
             '--graph --oneline --topo-order',
         )
         .apply(_add_common_refs)
+        .smart_options(['.', '-', '--'])
         .smart_options([
             # Not generated because there are too many options
             '--',
@@ -174,6 +175,7 @@ def common_commands(GitCommandRuleBuilder):
             '--date-order',
             '--decorate',
             '--first-parent',
+            '--follow',
             '--graph',
             '--oneline',
             '--patch',
