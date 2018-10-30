@@ -321,11 +321,8 @@ def extra_commands(GitCommandRuleBuilder):
         .apply(_add_common_refs)
         .smart_options(['-'])
         .smart_options([
-            # Generated (TODO remove unused options):
-            '--abort', '--allow-empty', '--allow-empty-message', '--continue',
-            '--edit', '--ff', '--gpg-sign', '--keep-redundant-commits',
-            '--mainline', '--merge', '--no-commit', '--quit', '--signoff',
-            '--strategy-option=', '--strategy=',
+            '--abort',
+            '--continue',
         ])
         .build(),
 
