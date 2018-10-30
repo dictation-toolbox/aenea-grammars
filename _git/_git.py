@@ -50,20 +50,6 @@ def unload():
     git_grammar = None
 
 
-def wrap_options(options):
-    return {
-        # wrap value which is a Text, to prevent it from being
-        # executed automatically
-        key: (value,)
-        for key, value in options.iteritems()
-    }
-
-
-def unwrap_values(values):
-    # see wrap_options()
-    return [value for value, in values]
-
-
 class GitCommandRule(CompoundRule):
     '''
     Example things you can say:
@@ -84,13 +70,15 @@ class GitCommandRule(CompoundRule):
         super(GitCommandRule, self).__init__(
             name=name,
             spec='[help] ({}) <options>'.format(alias),
+            exported=False,
             extras=[Repetition(
                 name='options',
                 min=0,
                 max=10,
                 child=RuleRef(MappingRule(
                     name=name + '_options',
-                    mapping=wrap_options(options),
+                    mapping=options,
+                    exported=False,
                 )),
             )],
         )
@@ -99,7 +87,7 @@ class GitCommandRule(CompoundRule):
         sequence_values = node.children[0].children[0].value()
 
         help = not not sequence_values[0]
-        option_values = unwrap_values(sequence_values[2])
+        option_values = sequence_values[2]
 
         output_text = Text('git {}{}'.format(
             'help ' if help else '',
@@ -199,6 +187,7 @@ class GitRule(CompoundRule):
 
         super(GitRule, self).__init__(
             spec=spec,
+            exported=False,
             extras=[
                 RuleRef(name='cancel', rule=MappingRule(
                     name='cancel',
