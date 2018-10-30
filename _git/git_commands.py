@@ -420,10 +420,5 @@ def extra_commands(GitCommandRuleBuilder):
         .smart_options([
             'add', 'list', 'lock', 'move', 'prune', 'remove', 'unlock',
         ])
-        .smart_options([
-            # Generated (TODO remove unused options):
-            '--[no-]checkout', '--detach', '--dry-run', '--expire', '--force',
-            '--lock', '--porcelain', '--reason', '--verbose',
-        ])
         .build(),
     ]
