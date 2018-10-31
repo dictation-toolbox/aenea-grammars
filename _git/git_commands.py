@@ -295,14 +295,8 @@ def extra_commands(GitCommandRuleBuilder):
     return [
         GitCommandRuleBuilder(name='apply')
         .smart_options([
-            # Generated (TODO remove unused options):
-            '--3way', '--allow-binary-replacement', '--apply', '--binary',
-            '--build-fake-ancestor=', '--cached', '--check', '--directory=',
-            '--exclude=', '--ignore-space-change', '--ignore-whitespace',
-            '--inaccurate-eof', '--include=', '--index', '--no-add',
-            '--numstat', '--recount', '--reject', '--reverse', '--stat',
-            '--summary', '--unidiff-zero', '--unsafe-paths', '--verbose',
-            '--whitespace=',
+            '--check',
+            '--stat',
         ])
         .build(),
 
