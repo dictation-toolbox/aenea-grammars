@@ -403,15 +403,17 @@ def extra_commands(GitCommandRuleBuilder):
 
         GitCommandRuleBuilder(name='submodule')
         .smart_options([
-            'absorbgitdirs', 'add', 'deinit', 'foreach', 'init', 'status',
-            'summary', 'sync', 'update',
+            'add',
+            'foreach',
+            'status',
+            'update',
         ])
         .smart_options([
-            # Generated (TODO remove unused options):
-            '--', '--[no-]recommend-shallow', '--all', '--branch', '--cached',
-            '--checkout', '--depth', '--files', '--force', '--init', '--jobs',
-            '--merge', '--name', '--no-fetch', '--quiet', '--rebase',
-            '--recursive', '--reference', '--remote', '--summary-limit',
+            '--',
+            '--init',
+            '--merge',
+            '--rebase',
+            '--recursive',
         ])
         .build(),
 
