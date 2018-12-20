@@ -388,10 +388,10 @@ def extra_commands(GitCommandRuleBuilder):
             'apply', 'branch', 'clear', 'create', 'drop', 'list', 'pop',
             'push', 'save', 'save', 'show', 'store',
         ])
+        .smart_options(['0', '1', '2', '3', '4', '5'])
         .smart_options([
-            # Generated (TODO remove unused options):
-            '--grep=', '--keep-index', '--merges', '--no-walk', '--patch',
-            '--soft', '--unreachable',
+            '--patch',
+            '--stat',
         ])
         .build(),
 
